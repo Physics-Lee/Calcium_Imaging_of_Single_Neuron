@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % Specify the folder path
-folder_path = 'F:\w11_2023-11-08_20-08-27\0_Camera-Red_VSC-10629';
+folder_path = 'F:\w11_2023-11-08_20-08-27\1_Camera-Green_VSC-09321';
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));
@@ -45,14 +45,16 @@ close(output_video);
 % Histogram
 figure;
 histogram(n_bright_pixel);
+xlabel("number of bright pixels of certain binary frame");
+ylabel("count");
 
 % Tukey
 IQR_index = 1;
-[number_of_up_outliers, number_of_down_outliers, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(n_bright_pixel, IQR_index);
+[~, ~, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(n_bright_pixel, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
 
 % Calculate outliers
-is_outlier = n_bright_pixel < down_limit | n_bright_pixel > up_limit;
+is_outlier = mask_up | mask_down;
 
 % Save the is_outlier data to a .mat file in the specified folder
 save(fullfile(folder_path, 'is_outlier.mat'), 'is_outlier');
