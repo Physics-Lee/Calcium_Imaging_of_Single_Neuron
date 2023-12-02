@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % Specify the folder path
-folder_path = 'F:\w11_2023-11-08_20-08-27\1_Camera-Green_VSC-09321';
+folder_path = 'F:\Calcium_Imaing_of_RIA\Orw2\Green';
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));

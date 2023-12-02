@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % Specify the folder path
-folder_path = 'F:\w11_2023-11-08_20-08-27\1_Camera-Green_VSC-09321';
+folder_path = 'F:\w11_2023-11-08_20-08-27\0_Camera-Red_VSC-10629';
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));
@@ -39,19 +39,11 @@ end
 % volume
 intensity_volume = intensity_of_a_volume(intensity);
 
-% plot
-figure
-new_index = (intensity_volume - mean(intensity_volume,'omitnan'))/mean(intensity_volume,'omitnan');
-if contains(folder_path,"Red")
-    color_str = 'red';
-elseif contains(folder_path,"Green")
-    color_str = 'green';
-end
-plot(1:length(intensity_volume),new_index,color_str);
-xlabel("volume","FontSize",20);
-ylabel("$\frac{I-<I>}{<I>}$","Interpreter","latex","FontSize",20);
-set_full_screen;
+% save mat
+save_file_name = 'intensity.mat';
+save_full_path = fullfile(folder_path, save_file_name);
+save(save_full_path, 'intensity');
 
-% Save fig
-saveas(gcf,fullfile(folder_path, 'intensity'),'png');
-close;
+save_file_name = 'intensity_volume.mat';
+save_full_path = fullfile(folder_path, save_file_name);
+save(save_full_path, 'intensity_volume');
