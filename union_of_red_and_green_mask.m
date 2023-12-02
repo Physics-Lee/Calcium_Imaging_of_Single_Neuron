@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % Specify the folder path
-folder_path = 'F:\w11_2023-11-08_20-08-27';
+folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
 list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'is_outlier.mat');

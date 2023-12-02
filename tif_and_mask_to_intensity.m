@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % Specify the folder path
-folder_path = 'F:\w11_2023-11-08_20-08-27\0_Camera-Red_VSC-10629';
+folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));
@@ -37,7 +37,8 @@ for i = 1:length(is_outlier_union)
 end
 
 % volume
-intensity_volume = intensity_of_a_volume(intensity);
+frame_per_volume = 5;
+intensity_volume = intensity_of_a_volume(intensity,frame_per_volume);
 
 % save mat
 save_file_name = 'intensity.mat';

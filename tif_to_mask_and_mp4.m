@@ -1,7 +1,7 @@
 clc; clear; close all;
 
 % Specify the folder path
-folder_path = 'F:\Calcium_Imaing_of_RIA\Orw2\Green';
+folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));
