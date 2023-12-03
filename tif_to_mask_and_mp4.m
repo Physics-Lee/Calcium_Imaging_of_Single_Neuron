@@ -61,6 +61,10 @@ end
 % Close the VideoWriter object
 close(output_video);
 
+if is_test
+    return
+end
+
 %% Tukey for n
 IQR_index = 1;
 figure;
