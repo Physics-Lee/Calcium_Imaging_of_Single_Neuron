@@ -10,7 +10,7 @@ files = dir(fullfile(folder_path, '*.tif'));
 sensitivity_threshold = 0.1;
 
 % test the super-parameter
-is_test = true;
+is_test = false;
 if is_test
     start_frame = 6000;
     end_frame = 6300;
@@ -19,18 +19,19 @@ else
     start_frame = 1;
     end_frame = length(files);
     video_name_str = sprintf('output_video_sense_%.4f.mp4',sensitivity_threshold);
-
+    
     % save info
     save_para_value(folder_path, sensitivity_threshold)
 end
 
 % Initialize the n_bright_pixel array
-n_bright_pixel = zeros(length(files), 1);
+n_bright_pixel = nan(length(files), 1);
+intensity = nan(length(files),1);
 
 % Create a VideoWriter object for the output video in the specified folder
 output_video_path = fullfile(folder_path, video_name_str);
 output_video = VideoWriter(output_video_path, 'MPEG-4');
-output_video.FrameRate = 30; % Set the frame rate to 30 fps
+output_video.FrameRate = 100; % Set the frame rate to 30 fps
 
 % Open the VideoWriter
 open(output_video);
@@ -39,16 +40,19 @@ open(output_video);
 for i = start_frame:end_frame
     % Full path to the current file
     full_path = fullfile(folder_path, files(i).name);
-
+    
     % Read the image data from the TIFF file
     gray_frame = imread(full_path);
-
+    
     % Convert to binary image using adaptive thresholding
     binary_frame = imbinarize(gray_frame, 'adaptive', 'Sensitivity', sensitivity_threshold);
-
+    
     % Compute the number of bright pixels
     n_bright_pixel(i) = sum(sum(binary_frame));
-
+    
+    % Compute the number of bright pixels
+    intensity(i) = sum(gray_frame(binary_frame));
+    
     % Convert the binary frame to uint8 and write it to the video
     binary_frame_uint8 = uint8(binary_frame) * 255;
     writeVideo(output_video, binary_frame_uint8);
@@ -57,23 +61,38 @@ end
 % Close the VideoWriter object
 close(output_video);
 
-% Histogram
+%% Tukey for n
+IQR_index = 1;
 figure;
-histogram(n_bright_pixel);
+histogram(n_bright_pixel(~isnan(n_bright_pixel)));
 xlabel("number of bright pixels of certain binary frame");
 ylabel("count");
-
-% Tukey
-IQR_index = 1;
 [~, ~, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(n_bright_pixel, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
+saveas(gcf,fullfile(folder_path, 'Tukey_test_of_n_of_bright_pixels'),'png');
 
 % Calculate outliers
-is_outlier = mask_up | mask_down;
+is_outlier_1 = mask_up | mask_down;
 
-% Save the is_outlier data to a .mat file in the specified folder
+%% Tukey for I
+IQR_index = 1;
+figure;
+histogram(intensity(~isnan(intensity)));
+xlabel("intensity of bright pixels of certain binary frame");
+ylabel("count");
+[~, ~, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(intensity, IQR_index);
+Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
+saveas(gcf,fullfile(folder_path, 'Tukey_test_of_I_of_bright_pixels'),'png');
+
+% Calculate outliers
+is_outlier_2 = mask_up | mask_down;
+
+%% union
+is_outlier = is_outlier_1 | is_outlier_2;
+
+%% Save
 save(fullfile(folder_path, 'is_outlier.mat'), 'is_outlier');
+save(fullfile(folder_path, 'intensity.mat'), 'intensity');
 
-% Save fig
-saveas(gcf,fullfile(folder_path, 'Tukey_test'),'png');
-close;
+%%
+close all;
