@@ -1,10 +1,13 @@
 clc; clear; close all;
 
-% set frame per volume (5 for before 2023/10/30, 10 for after 2023/10/30)
-frame_per_volume = 5;
-
 % Specify the folder path
 folder_path = uigetdir;
+
+% set frame per volume (5 for before 2023/10/30, 10 for after 2023/10/30)
+frame_per_volume = 10;
+
+% save
+save_para_value(folder_path, frame_per_volume)
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));

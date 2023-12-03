@@ -50,10 +50,10 @@ I_2(is_outlier) = nan;
 figure;
 subplot(2,1,1)
 plot_intensity(I_1,list{1});
-% xlim([2400,2600]);
+xlim([2400,2600]);
 subplot(2,1,2)
 plot_intensity(I_2,list{2});
-% xlim([2400,2600]);
+xlim([2400,2600]);
 set_full_screen;
 saveas(gcf,fullfile(folder_path, 'intensity_r_g'),'png');
 
@@ -81,7 +81,6 @@ end
 
 set_full_screen;
 saveas(gcf,fullfile(folder_path, 'intensity'),'png');
-saveas(gcf,fullfile(folder_path, 'intensity'),'fig');
 
 %% plot normalized I
 figure;
@@ -116,7 +115,6 @@ end
 
 set_full_screen;
 saveas(gcf,fullfile(folder_path, 'intensity_normalized'),'png');
-saveas(gcf,fullfile(folder_path, 'intensity_normalized'),'fig');
 
 %% Corr
 is_nan_1 = isnan(I_1);

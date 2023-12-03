@@ -7,13 +7,13 @@ folder_path = uigetdir;
 files = dir(fullfile(folder_path, '*.tif'));
 
 % Sensitivity threshold (super-parameter)
-sensitivity_threshold = 0.2;
+sensitivity_threshold = 0.1;
 
 % test the super-parameter
-is_test = false;
+is_test = true;
 if is_test
     start_frame = 6000;
-    end_frame = 7000;
+    end_frame = 6300;
     video_name_str = sprintf('output_video_sense_%.4f_from_%d_to_%d.mp4',sensitivity_threshold,start_frame,end_frame);
 else
     start_frame = 1;
@@ -21,7 +21,7 @@ else
     video_name_str = sprintf('output_video_sense_%.4f.mp4',sensitivity_threshold);
 
     % save info
-    save_sense_value(folder_path,sensitivity_threshold)
+    save_para_value(folder_path, sensitivity_threshold)
 end
 
 % Initialize the n_bright_pixel array
