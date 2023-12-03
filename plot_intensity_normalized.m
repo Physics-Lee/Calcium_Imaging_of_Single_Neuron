@@ -1,4 +1,4 @@
-function plot_intensity_normalized(intensity_volume,folder_path)
+function intensity_normalized = plot_intensity_normalized(intensity_volume,folder_path)
 
 intensity_normalized = (intensity_volume - mean(intensity_volume,'omitnan'))/mean(intensity_volume,'omitnan');
 if contains(folder_path,"Red")

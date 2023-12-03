@@ -1,7 +1,7 @@
 clc; clear; close all;
 
-% set frame per volume
-frame_per_volume = 10;
+% set frame per volume (5 for before 2023/10/30, 10 for after 2023/10/30)
+frame_per_volume = 5;
 
 % Specify the folder path
 folder_path = uigetdir;
@@ -10,7 +10,7 @@ folder_path = uigetdir;
 files = dir(fullfile(folder_path, '*.tif'));
 
 % Sensitivity threshold
-sensitivity_threshold = 0.01;
+sensitivity_threshold = 0.2;
 
 % load mask
 is_outlier_union = load_data_from_mat(fullfile(folder_path,'is_outlier_union.mat'));

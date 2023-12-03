@@ -1,5 +1,20 @@
 clc; clear; close all;
 
+% Sensitivity threshold (super-parameter)
+sensitivity_threshold = 0.2;
+
+% test the super-parameter
+is_test = false;
+if is_test
+    start_frame = 6000;
+    end_frame = 7000;
+    video_name_str = sprintf('output_video_sense_%.4f_from_%d_to_%d.mp4',sensitivity_threshold,start_frame,end_frame);
+else
+    start_frame = 1;
+    end_frame = length(files);
+    video_name_str = sprintf('output_video_sense_%.4f.mp4',sensitivity_threshold);
+end
+
 % Specify the folder path
 folder_path = uigetdir;
 
@@ -9,15 +24,9 @@ files = dir(fullfile(folder_path, '*.tif'));
 % Initialize the n_bright_pixel array
 n_bright_pixel = zeros(length(files), 1);
 
-% Sensitivity threshold (super-parameter)
-sensitivity_threshold = 0.2;
-
-% test the super-parameter
-start_frame = 6000;
-end_frame = 7000;
 
 % Create a VideoWriter object for the output video in the specified folder
-output_video_path = fullfile(folder_path, sprintf('output_video_from_%d_to_%d.mp4',start_frame,end_frame));
+output_video_path = fullfile(folder_path, video_name_str);
 output_video = VideoWriter(output_video_path, 'MPEG-4');
 output_video.FrameRate = 30; % Set the frame rate to 30 fps
 
