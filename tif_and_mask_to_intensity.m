@@ -1,5 +1,8 @@
 clc; clear; close all;
 
+% set frame per volume
+frame_per_volume = 10;
+
 % Specify the folder path
 folder_path = uigetdir;
 
@@ -37,7 +40,6 @@ for i = 1:length(is_outlier_union)
 end
 
 % volume
-frame_per_volume = 5;
 intensity_volume = intensity_of_a_volume(intensity,frame_per_volume);
 
 % save mat

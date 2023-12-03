@@ -1,6 +1,5 @@
 function plot_intensity(intensity_volume,folder_path)
 
-intensity_normalized = (intensity_volume - mean(intensity_volume,'omitnan'))/mean(intensity_volume,'omitnan');
 if contains(folder_path,"Red")
     color_str = 'red';
     title_str = 'red channel';
@@ -8,9 +7,9 @@ elseif contains(folder_path,"Green")
     color_str = 'green';
     title_str = 'green channel';
 end
-plot(1:length(intensity_volume),intensity_normalized,color_str);
+plot(1:length(intensity_volume),intensity_volume,color_str);
 xlabel("volume","FontSize",20);
-ylabel("$\frac{I-<I>}{<I>}$","Interpreter","latex","FontSize",20);
+ylabel("$I$","Interpreter","latex","FontSize",20);
 title(title_str,"FontSize",20);
 
 end
