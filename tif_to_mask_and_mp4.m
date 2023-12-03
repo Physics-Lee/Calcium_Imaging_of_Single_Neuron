@@ -1,5 +1,11 @@
 clc; clear; close all;
 
+% Specify the folder path
+folder_path = uigetdir;
+
+% Get a list of all .tif files in the folder
+files = dir(fullfile(folder_path, '*.tif'));
+
 % Sensitivity threshold (super-parameter)
 sensitivity_threshold = 0.2;
 
@@ -13,17 +19,13 @@ else
     start_frame = 1;
     end_frame = length(files);
     video_name_str = sprintf('output_video_sense_%.4f.mp4',sensitivity_threshold);
+
+    % save info
+    save_sense_value(folder_path,sensitivity_threshold)
 end
-
-% Specify the folder path
-folder_path = uigetdir;
-
-% Get a list of all .tif files in the folder
-files = dir(fullfile(folder_path, '*.tif'));
 
 % Initialize the n_bright_pixel array
 n_bright_pixel = zeros(length(files), 1);
-
 
 % Create a VideoWriter object for the output video in the specified folder
 output_video_path = fullfile(folder_path, video_name_str);

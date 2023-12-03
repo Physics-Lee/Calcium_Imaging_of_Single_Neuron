@@ -10,7 +10,11 @@ folder_path = uigetdir;
 files = dir(fullfile(folder_path, '*.tif'));
 
 % Sensitivity threshold
-sensitivity_threshold = 0.2;
+if size(dir(fullfile(folder_path, 'sensitivity_threshold.txt')),1) == 1
+    sensitivity_threshold = get_sense_value(folder_path);
+else
+    sensitivity_threshold = 0.01;
+end
 
 % load mask
 is_outlier_union = load_data_from_mat(fullfile(folder_path,'is_outlier_union.mat'));
