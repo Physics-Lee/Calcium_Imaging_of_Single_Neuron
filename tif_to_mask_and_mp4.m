@@ -7,7 +7,7 @@ folder_path = uigetdir;
 files = dir(fullfile(folder_path, '*.tif'));
 
 % Sensitivity threshold (super-parameter)
-sensitivity_threshold = 0.1;
+sensitivity_threshold = 0.2;
 
 % test the super-parameter
 is_test = false;

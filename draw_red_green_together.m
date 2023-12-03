@@ -27,6 +27,8 @@ end
 %% Tukey
 figure;
 histogram(I_1);
+xlabel("I_1");
+ylabel("count");
 IQR_index = 1;
 [~, ~, mask_up_1, mask_down_1, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_1, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
@@ -34,6 +36,8 @@ saveas(gcf,fullfile(folder_path, 'Tukey_test_for_I_1'),'png');
 
 figure;
 histogram(I_2);
+xlabel("I_2");
+ylabel("count");
 IQR_index = 1;
 [~, ~, mask_up_2, mask_down_2, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_2, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);

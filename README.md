@@ -14,20 +14,19 @@ note:
 
 * How to detect outliers?
 
-  * Tukey test of the number of bright pixels of certian binary frame.
-  * Tukey test of the intensity of certian volume.
+  * Tukey test of the number of bright pixels of certian binary frame. IQR_index = 1
+  * Tukey test of the intensity of bright pixels of certian binary frame. IQR_index = 1
+  * Tukey test of the `intensity_volume` of certian volume. IQR_index = 1
+  * Tukey test of the diff or ratio. IQR_index = 3
 
-* How to deal with outliers?
+* How to deal with outliers?: make them to be nan.
 
-  * I will preserve outliers as nan in step 1-3.
-
-  * I will plot outliers as nothing in step 4.
 
 
 
 super-parameter
 
-* sense threshold
+* sense threshold: 0.01, 0.1, 0.2
 * IQR index
 
 
