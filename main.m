@@ -1,4 +1,4 @@
-folder_path = 'F:\Nut_Store\RIA calcium imaging\Or_w2_2023-11-27_20-26-51';
+folder_path = 'D:\RIA calcium imaging\Ctl_w2_2023-11-20_20-57-24';
 
 %%
 union_of_red_and_green_mask(folder_path);
@@ -13,4 +13,8 @@ folder_path_Green = list{1};
 intensity_and_mask_to_intensity(folder_path_Green);
 
 %%
-draw_red_green_together(folder_path);
+pooling_method = "mean";
+draw_red_green_together(folder_path,pooling_method);
+
+pooling_method = "max";
+draw_red_green_together(folder_path,pooling_method);

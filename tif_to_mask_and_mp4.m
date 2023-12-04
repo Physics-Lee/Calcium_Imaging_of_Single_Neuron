@@ -7,13 +7,13 @@ folder_path = uigetdir;
 files = dir(fullfile(folder_path, '*.tif'));
 
 % Sensitivity threshold (super-parameter)
-sensitivity_threshold = 0.2;
+sensitivity_threshold = 0.15;
 
 % test the super-parameter
 is_test = false;
 if is_test
-    start_frame = 16000;
-    end_frame = 16300;
+    start_frame = 6000;
+    end_frame = 6300;
     video_name_str = sprintf('output_video_sense_%.4f_from_%d_to_%d.mp4',sensitivity_threshold,start_frame,end_frame);
 else
     start_frame = 1;

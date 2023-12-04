@@ -1,10 +1,19 @@
-function draw_red_green_together(folder_path)
+function draw_red_green_together(folder_path,pooling_method)
 
 % Specify the folder path
 % folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
-list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume.mat');
+switch pooling_method
+    case "mean"
+        list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_mean.mat');
+        save_folder_path = fullfile(folder_path,"mean pooling");
+        create_folder(save_folder_path);
+    case "max"
+        list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_max.mat');
+        save_folder_path = fullfile(folder_path,"max pooling");
+        create_folder(save_folder_path);
+end
 
 % error
 if length(list) ~= 2
@@ -32,7 +41,7 @@ ylabel("count");
 IQR_index = 1;
 [~, ~, mask_up_1, mask_down_1, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_1, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
-saveas(gcf,fullfile(folder_path, 'Tukey_test_for_I_1'),'png');
+saveas(gcf,fullfile(save_folder_path, 'Tukey_test_for_I_1'),'png');
 
 figure;
 histogram(I_2);
@@ -41,7 +50,7 @@ ylabel("count");
 IQR_index = 1;
 [~, ~, mask_up_2, mask_down_2, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_2, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
-saveas(gcf,fullfile(folder_path, 'Tukey_test_for_I_2'),'png');
+saveas(gcf,fullfile(save_folder_path, 'Tukey_test_for_I_2'),'png');
 
 mask_up = mask_up_1 | mask_up_2;
 mask_down = mask_down_1 | mask_down_2;
@@ -52,8 +61,8 @@ I_2(is_outlier) = nan;
 
 %% plot I
 plot_3(I_1,I_2,I_1_info,list)
-saveas(gcf,fullfile(folder_path, 'intensity_r_g_ratio'),'png');
-saveas(gcf,fullfile(folder_path, 'intensity_r_g_ratio'),'fig');
+saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
+saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
 
 %% plot normalized I
 figure;
@@ -72,8 +81,8 @@ else
 end
 
 set_full_screen;
-saveas(gcf,fullfile(folder_path, 'intensity_normalized_r_g_ratio'),'png');
-saveas(gcf,fullfile(folder_path, 'intensity_normalized_r_g_ratio'),'fig');
+saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
+saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'fig');
 
 %% Corr
 is_nan_1 = isnan(I_1);
@@ -98,9 +107,12 @@ plot(I_1_filted,I_2_filted,'k-o');
 xlabel(I_1_info);
 ylabel(I_2_info);
 title(sprintf("r = %.2f; b = %.2f",r(1,2),p(1)));
-saveas(gcf,fullfile(folder_path, 'Visualize_as_X_and_Y'),'png');
+saveas(gcf,fullfile(save_folder_path, 'Visualize_as_X_and_Y'),'png');
 
 %% close
 close all;
+
+%% disp
+disp('figures saved successfully!')
 
 end

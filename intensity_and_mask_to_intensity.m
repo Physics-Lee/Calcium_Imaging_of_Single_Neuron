@@ -17,15 +17,23 @@ intensity = load_data_from_mat(fullfile(folder_path,'intensity.mat'));
 intensity(is_outlier_union) = nan;
 
 % volume
-intensity_volume = intensity_of_a_volume(intensity,frame_per_volume);
+intensity_volume_mean = mean_pooling(intensity,frame_per_volume);
+intensity_volume_max = max_pooling(intensity, frame_per_volume);
 
-% save mat
+% save
 save_file_name = 'intensity_outlier_as_nan.mat';
 save_full_path = fullfile(folder_path, save_file_name);
 save(save_full_path, 'intensity');
 
-save_file_name = 'intensity_volume.mat';
+save_file_name = 'intensity_volume_mean.mat';
 save_full_path = fullfile(folder_path, save_file_name);
-save(save_full_path, 'intensity_volume');
+save(save_full_path, 'intensity_volume_mean');
+
+save_file_name = 'intensity_volume_max.mat';
+save_full_path = fullfile(folder_path, save_file_name);
+save(save_full_path, 'intensity_volume_max');
+
+% disp
+disp('intensity_volume.mat saved successfully!')
 
 end

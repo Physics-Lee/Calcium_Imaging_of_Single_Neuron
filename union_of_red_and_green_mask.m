@@ -34,4 +34,7 @@ for i = 1:length(list)
     save(save_full_path, 'is_outlier_union');
 end
 
+% disp
+disp('is_outlier_union.mat saved successfully!')
+
 end
