@@ -52,8 +52,8 @@ I_2(is_outlier) = nan;
 
 %% plot I
 plot_3(I_1,I_2,I_1_info,list)
-saveas(gcf,fullfile(folder_path, 'intensity'),'png');
-saveas(gcf,fullfile(folder_path, 'intensity'),'fig');
+saveas(gcf,fullfile(folder_path, 'intensity_r_g_ratio'),'png');
+saveas(gcf,fullfile(folder_path, 'intensity_r_g_ratio'),'fig');
 
 %% plot normalized I
 figure;
@@ -72,8 +72,8 @@ else
 end
 
 set_full_screen;
-saveas(gcf,fullfile(folder_path, 'intensity_normalized'),'png');
-saveas(gcf,fullfile(folder_path, 'intensity_normalized'),'fig');
+saveas(gcf,fullfile(folder_path, 'intensity_normalized_r_g_ratio'),'png');
+saveas(gcf,fullfile(folder_path, 'intensity_normalized_r_g_ratio'),'fig');
 
 %% Corr
 is_nan_1 = isnan(I_1);
