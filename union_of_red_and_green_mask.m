@@ -1,7 +1,7 @@
-clc; clear; close all;
+function union_of_red_and_green_mask(folder_path)
 
 % Specify the folder path
-folder_path = uigetdir;
+% folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
 list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'is_outlier.mat');
@@ -32,4 +32,6 @@ for i = 1:length(list)
     save_file_name = 'is_outlier_union.mat';
     save_full_path = fullfile(folder_path, save_file_name);
     save(save_full_path, 'is_outlier_union');
+end
+
 end

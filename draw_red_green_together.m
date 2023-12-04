@@ -1,7 +1,7 @@
-clc; clear; close all;
+function draw_red_green_together(folder_path)
 
 % Specify the folder path
-folder_path = uigetdir;
+% folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
 list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume.mat');
@@ -102,3 +102,5 @@ saveas(gcf,fullfile(folder_path, 'Visualize_as_X_and_Y'),'png');
 
 %% close
 close all;
+
+end

@@ -1,7 +1,7 @@
-clc; clear; close all;
+function intensity_and_mask_to_intensity(folder_path)
 
 % Specify the folder path
-folder_path = uigetdir;
+% folder_path = uigetdir;
 
 % set frame per volume (5 for before 2023/10/30, 10 for after 2023/10/30)
 frame_per_volume = 10;
@@ -27,3 +27,5 @@ save(save_full_path, 'intensity');
 save_file_name = 'intensity_volume.mat';
 save_full_path = fullfile(folder_path, save_file_name);
 save(save_full_path, 'intensity_volume');
+
+end
