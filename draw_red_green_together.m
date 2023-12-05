@@ -112,6 +112,21 @@ saveas(gcf,fullfile(save_folder_path, 'Visualize_as_X_and_Y'),'png');
 %% close
 close all;
 
+%% Coefficient of Variance
+if I_1_info == "Red"
+    CV_Red = std(I_1,'omitmissing') / mean(I_1,'omitmissing');
+    CV_Green = std(I_2,'omitmissing') / mean(I_2,'omitmissing');
+else
+    CV_Red = std(I_2,'omitmissing') / mean(I_2,'omitmissing');
+    CV_Green = std(I_1,'omitmissing') / mean(I_1,'omitmissing');
+end
+
+save_para_value(save_folder_path, CV_Red);
+save_para_value(save_folder_path, CV_Green);
+
+fprintf("CV of Red: %.4f\n",CV_Red);
+fprintf("CV of Green: %.4f\n",CV_Green);
+
 %% disp
 disp('figures saved successfully!')
 

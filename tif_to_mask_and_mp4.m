@@ -1,16 +1,12 @@
-clc; clear; close all;
+function tif_to_mask_and_mp4(folder_path,sensitivity_threshold,is_test)
 
 % Specify the folder path
-folder_path = uigetdir;
+% folder_path = uigetdir;
 
 % Get a list of all .tif files in the folder
 files = dir(fullfile(folder_path, '*.tif'));
 
-% Sensitivity threshold (super-parameter)
-sensitivity_threshold = 0.15;
-
 % test the super-parameter
-is_test = false;
 if is_test
     start_frame = 6000;
     end_frame = 6300;
@@ -100,3 +96,5 @@ save(fullfile(folder_path, 'intensity.mat'), 'intensity');
 
 %%
 close all;
+
+end
