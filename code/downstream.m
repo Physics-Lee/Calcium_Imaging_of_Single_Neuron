@@ -4,6 +4,7 @@
 %
 
 %%
+clc;clear;close all;
 root_path = uigetdir;
 if root_path ~= 0
     root_list = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(root_path,'w');

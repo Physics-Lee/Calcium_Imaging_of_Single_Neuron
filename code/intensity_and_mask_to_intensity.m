@@ -7,7 +7,7 @@ function intensity_and_mask_to_intensity(folder_path)
 frame_per_volume = 10;
 
 % save
-save_para_value(folder_path, frame_per_volume)
+save_para_value_to_txt(folder_path, frame_per_volume)
 
 % load
 is_outlier_union = load_data_from_mat(fullfile(folder_path,'is_outlier_union.mat'));

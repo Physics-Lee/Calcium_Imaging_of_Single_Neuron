@@ -1,4 +1,4 @@
-function plot_ratio(I_red,I_green)
+function I_ratio = plot_ratio(I_red,I_green)
 
 is_nan_1 = isnan(I_red);
 is_nan_2 = isnan(I_green);

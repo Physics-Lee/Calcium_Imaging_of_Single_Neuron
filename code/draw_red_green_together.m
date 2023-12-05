@@ -60,29 +60,41 @@ I_1(is_outlier) = nan;
 I_2(is_outlier) = nan;
 
 %% plot I
-plot_3(I_1,I_2,I_1_info,list)
+I_ratio = plot_3(I_1,I_2,I_1_info,list);
 saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
 saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
 
-%% plot normalized I
+%% plot I_ratio
 figure;
-
-subplot(3,1,1)
-I_1_normalized = plot_intensity_normalized(I_1,list{1});
-
-subplot(3,1,2)
-I_2_normalized = plot_intensity_normalized(I_2,list{2});
-
-subplot(3,1,3)
-if I_1_info == "Red"
-    plot_ratio(I_1_normalized,I_2_normalized);
-else
-    plot_ratio(I_2_normalized,I_1_normalized);
-end
-
+I_ratio_normalized = normalization_dividing_by_the_mean(I_ratio);
+plot(1:length(I_ratio_normalized),I_ratio_normalized,'k');
+xlabel("volume","FontSize",20);
+ylabel("$\frac{ratio-<ratio>}{<ratio>}$","Interpreter","latex","FontSize",20);
+title("$ratio = \frac{Green}{Red}$","Interpreter","latex","FontSize",20);
+ylim([-0.5 +0.5]);
 set_full_screen;
-saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
-saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'fig');
+saveas(gcf,fullfile(save_folder_path, 'ratio'),'png');
+saveas(gcf,fullfile(save_folder_path, 'ratio'),'fig');
+
+%% plot normalized I
+% figure;
+% 
+% subplot(3,1,1)
+% I_1_normalized = plot_intensity_normalized(I_1,list{1});
+% 
+% subplot(3,1,2)
+% I_2_normalized = plot_intensity_normalized(I_2,list{2});
+% 
+% subplot(3,1,3)
+% if I_1_info == "Red"
+%     plot_ratio(I_1_normalized,I_2_normalized);
+% else
+%     plot_ratio(I_2_normalized,I_1_normalized);
+% end
+% 
+% set_full_screen;
+% saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
+% saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'fig');
 
 %% Corr
 is_nan_1 = isnan(I_1);
@@ -114,15 +126,15 @@ close all;
 
 %% Coefficient of Variance
 if I_1_info == "Red"
-    CV_Red = std(I_1,'omitmissing') / mean(I_1,'omitmissing');
-    CV_Green = std(I_2,'omitmissing') / mean(I_2,'omitmissing');
+    CV_Red = std(I_1,'omitnan') / mean(I_1,'omitnan');
+    CV_Green = std(I_2,'omitnan') / mean(I_2,'omitnan');
 else
-    CV_Red = std(I_2,'omitmissing') / mean(I_2,'omitmissing');
-    CV_Green = std(I_1,'omitmissing') / mean(I_1,'omitmissing');
+    CV_Red = std(I_2,'omitnan') / mean(I_2,'omitnan');
+    CV_Green = std(I_1,'omitnan') / mean(I_1,'omitnan');
 end
 
-save_para_value(save_folder_path, CV_Red);
-save_para_value(save_folder_path, CV_Green);
+save_para_value_to_txt(save_folder_path, CV_Red);
+save_para_value_to_txt(save_folder_path, CV_Green);
 
 fprintf("CV of Red: %.4f\n",CV_Red);
 fprintf("CV of Green: %.4f\n",CV_Green);

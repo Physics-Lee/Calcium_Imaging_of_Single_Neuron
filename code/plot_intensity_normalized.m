@@ -1,6 +1,6 @@
 function intensity_normalized = plot_intensity_normalized(intensity_volume,folder_path)
 
-intensity_normalized = (intensity_volume - mean(intensity_volume,'omitnan'))/mean(intensity_volume,'omitnan');
+intensity_normalized = normalization_dividing_by_the_mean(intensity_volume);
 if contains(folder_path,"Red")
     color_str = 'red';
     title_str = 'red channel';

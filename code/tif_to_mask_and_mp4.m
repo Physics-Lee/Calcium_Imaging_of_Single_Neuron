@@ -17,7 +17,7 @@ else
     video_name_str = sprintf('output_video_sense_%.4f.mp4',sensitivity_threshold);
     
     % save info
-    save_para_value(folder_path, sensitivity_threshold)
+    save_para_value_to_txt(folder_path, sensitivity_threshold)
 end
 
 % Initialize the n_bright_pixel array
