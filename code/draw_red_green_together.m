@@ -60,21 +60,32 @@ I_1(is_outlier) = nan;
 I_2(is_outlier) = nan;
 
 %% plot I
-I_ratio = plot_3(I_1,I_2,I_1_info,list);
-saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
-saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
-
-%% plot I_ratio
 figure;
+
+subplot(4,1,1)
+plot_intensity(I_1,list{1});
+
+subplot(4,1,2)
+plot_intensity(I_2,list{2});
+
+subplot(4,1,3)
+if I_1_info == "Red"
+    I_ratio = plot_ratio(I_1,I_2);
+else
+    I_ratio = plot_ratio(I_2,I_1);
+end
+
+subplot(4,1,4)
 I_ratio_normalized = normalization_dividing_by_the_mean(I_ratio);
 plot(1:length(I_ratio_normalized),I_ratio_normalized,'k');
 xlabel("volume","FontSize",20);
 ylabel("$\frac{ratio-<ratio>}{<ratio>}$","Interpreter","latex","FontSize",20);
-title("$ratio = \frac{Green}{Red}$","Interpreter","latex","FontSize",20);
+% title("$ratio = \frac{Green}{Red}$","Interpreter","latex","FontSize",20);
 ylim([-0.5 +0.5]);
+
 set_full_screen;
-saveas(gcf,fullfile(save_folder_path, 'ratio'),'png');
-saveas(gcf,fullfile(save_folder_path, 'ratio'),'fig');
+saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
+saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
 
 %% plot normalized I
 % figure;
