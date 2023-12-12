@@ -73,21 +73,28 @@ for i = start_frame:end_frame
     intensity(i) = sum(gray_frame(binary_frame));
 
     %
-    % se = strel('disk', 3); 
+    % se = strel('disk', 3);
     % binary_frame_strel = imopen(binary_frame, se);
 
     % connectivity component
     cc = bwconncomp(binary_frame,4);
 
-    % make the max to be soma
+    % 
     n_pixels = cellfun(@numel, cc.PixelIdxList);
-    [~, largest_idx] = max(n_pixels);
-    soma = false(size(binary_frame));
-    soma(cc.PixelIdxList{largest_idx}) = true;
+    if isempty(n_pixels)
+        soma = false(size(binary_frame));
+        neurite = false(size(binary_frame));
+    else
 
-    % make the diff to be neurite
-    neurite = binary_frame - soma;
-    neurite(neurite < 0) = 0;
+        % make the max to be soma
+        [~, largest_idx] = max(n_pixels);
+        soma = false(size(binary_frame));
+        soma(cc.PixelIdxList{largest_idx}) = true;
+
+        % make the diff to be neurite
+        neurite = binary_frame - soma;
+        neurite(neurite < 0) = 0;
+    end
 
     % Convert the binary frame to uint8 and write it to the video
     binary_frame_uint8 = uint8(binary_frame) * 255;
