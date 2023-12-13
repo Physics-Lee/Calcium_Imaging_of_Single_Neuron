@@ -116,10 +116,10 @@ close(output_video);
 close(output_video_soma);
 close(output_video_neurite);
 
-% % return
-% if is_test
-%     return
-% end
+% return
+if is_test
+    return
+end
 
 %% Tukey for n
 IQR_index = 1;
