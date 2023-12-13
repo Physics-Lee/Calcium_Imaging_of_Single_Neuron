@@ -7,7 +7,7 @@
 % 2023-12-12, Yixuan Li
 %
 
-function tif_to_mask_and_mp4_new(folder_path,sensitivity_threshold,is_test,algorithm_type)
+function tif_to_mask_and_mp4(folder_path,sensitivity_threshold,is_test,algorithm_type)
 
 %% init
 % Get a list of all .tif files in the folder
@@ -35,11 +35,11 @@ intensity = nan(length(files),1);
 video_format = 'MPEG-4';
 fps = 100; % Hz
 output_video = open_a_video(folder_path,video_name_str,video_format,fps);
-output_video_soma = open_a_video(folder_path,strcat(video_name_str,'_soma'),video_format,fps);
-output_video_neurite = open_a_video(folder_path,strcat(video_name_str,'_neurite'),video_format,fps);
+output_video_soma = open_a_video(folder_path,strrep(video_name_str,'.mp4','_soma.mp4'),video_format,fps);
+output_video_neurite = open_a_video(folder_path,strrep(video_name_str,'.mp4','_neurite.mp4'),video_format,fps);
 
 % set h
-h = fspecial('gaussian',[3,3],3);
+h = fspecial('gaussian',[5,5],3);
 
 %% Loop through the files
 for i = start_frame:end_frame
@@ -69,20 +69,12 @@ for i = start_frame:end_frame
     % Compute the number of bright pixels
     intensity(i) = sum(gray_frame(binary_frame));
 
-    %
-    % visualize_watershed(binary_frame)
-
-    % structure element
+    % open (erosion and dilation)
     se = strel('disk', 5);
-    binary_frame_streled = imopen(binary_frame, se);
+    binary_frame_opened = imopen(binary_frame, se);
 
-    % water shed
-    D = -bwdist(~binary_frame_streled);
-    L = watershed(D);
-    binary_frame_streled(L == 0) = 0;
-
-    % connectivity component
-    cc = bwconncomp(binary_frame_streled,4);
+    % connectivity
+    cc = bwconncomp(binary_frame_opened,4);
 
     % split
     n_pixels = cellfun(@numel, cc.PixelIdxList);
@@ -99,6 +91,10 @@ for i = start_frame:end_frame
         axon_dendrite = binary_frame & ~soma;
     end
 
+    % open (erosion and dilation)
+    se = strel('disk', 1);
+    axon_dendrite_opened = imopen(axon_dendrite, se);
+
     % Convert the binary frame to uint8 and write it to the video
     binary_frame_uint8 = uint8(binary_frame) * 255;
     writeVideo(output_video, binary_frame_uint8);
@@ -106,7 +102,7 @@ for i = start_frame:end_frame
     binary_frame_uint8_soma = uint8(soma) * 255;
     writeVideo(output_video_soma, binary_frame_uint8_soma);
 
-    binary_frame_uint8_neurite = uint8(axon_dendrite) * 255;
+    binary_frame_uint8_neurite = uint8(axon_dendrite_opened) * 255;
     writeVideo(output_video_neurite, binary_frame_uint8_neurite);
 
 end

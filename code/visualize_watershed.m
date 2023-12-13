@@ -1,3 +1,8 @@
+% visualize watershed method
+%
+% 2023-12-13, Yixuan Li
+%
+
 function visualize_watershed(binary_frame)
 
 % Step 1: Show the original binary image
