@@ -1,17 +1,23 @@
-function draw_red_green_together(folder_path,pooling_method)
+% draw red and green channel together~
+%
+% 2023-12-13, Yixuan Li
+%
 
-% Specify the folder path
-% folder_path = uigetdir;
+function draw_red_green_together(folder_path,pooling_method,analyze_area)
 
 % Get a list of all .tif files in the folder
 switch pooling_method
     case "mean"
         list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_mean.mat');
-        save_folder_path = fullfile(folder_path,"mean pooling");
+        save_folder_path = fullfile(folder_path,analyze_area,"mean pooling");
         create_folder(save_folder_path);
     case "max"
         list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_max.mat');
-        save_folder_path = fullfile(folder_path,"max pooling");
+        save_folder_path = fullfile(folder_path,analyze_area,"max pooling");
+        create_folder(save_folder_path);
+    case "median"
+        list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_median.mat');
+        save_folder_path = fullfile(folder_path,analyze_area,"median pooling");
         create_folder(save_folder_path);
 end
 
@@ -38,7 +44,7 @@ figure;
 histogram(I_1);
 xlabel("I_1");
 ylabel("count");
-IQR_index = 1;
+IQR_index = 3;
 [~, ~, mask_up_1, mask_down_1, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_1, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
 saveas(gcf,fullfile(save_folder_path, 'Tukey_test_for_I_1'),'png');
@@ -47,7 +53,7 @@ figure;
 histogram(I_2);
 xlabel("I_2");
 ylabel("count");
-IQR_index = 1;
+IQR_index = 3;
 [~, ~, mask_up_2, mask_down_2, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_2, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
 saveas(gcf,fullfile(save_folder_path, 'Tukey_test_for_I_2'),'png');
@@ -80,8 +86,8 @@ I_ratio_normalized = normalization_dividing_by_the_mean(I_ratio);
 plot(1:length(I_ratio_normalized),I_ratio_normalized,'k');
 xlabel("volume","FontSize",20);
 ylabel("$\frac{ratio-<ratio>}{<ratio>}$","Interpreter","latex","FontSize",20);
-% title("$ratio = \frac{Green}{Red}$","Interpreter","latex","FontSize",20);
-ylim([-0.5 +0.5]);
+ylim([-1 +1]);
+% ylim([-0.5 +0.5]);
 
 set_full_screen;
 saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
@@ -89,20 +95,20 @@ saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
 
 %% plot normalized I
 % figure;
-% 
+%
 % subplot(3,1,1)
 % I_1_normalized = plot_intensity_normalized(I_1,list{1});
-% 
+%
 % subplot(3,1,2)
 % I_2_normalized = plot_intensity_normalized(I_2,list{2});
-% 
+%
 % subplot(3,1,3)
 % if I_1_info == "Red"
 %     plot_ratio(I_1_normalized,I_2_normalized);
 % else
 %     plot_ratio(I_2_normalized,I_1_normalized);
 % end
-% 
+%
 % set_full_screen;
 % saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
 % saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'fig');
