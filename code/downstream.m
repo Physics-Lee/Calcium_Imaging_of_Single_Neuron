@@ -3,10 +3,9 @@
 % 2023-12-04, Yixuan Li
 %
 
-%%
 clc;clear;close all;
 root_path = uigetdir;
-analyze_area = "soma";
+analyze_area = "all";
 if root_path ~= 0
     root_list = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(root_path,'w');
     [indx,tf] = listdlg('ListString',root_list,'ListSize',[800,600],'Name','Chose files');
