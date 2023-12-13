@@ -16,7 +16,7 @@ files = dir(fullfile(folder_path, '*.tif'));
 % test the super-parameter
 if is_test
     start_frame = 12000;
-    end_frame = 14000;
+    end_frame = 12500;
     video_name_str = sprintf('%s_sense_%.4f_from_%d_to_%d.mp4',algorithm_type,sensitivity_threshold,start_frame,end_frame);
 else
     start_frame = 1;
@@ -27,9 +27,11 @@ else
     save_para_value_to_txt(folder_path, sensitivity_threshold)
 end
 
-% Initialize the n_bright_pixel array
+% Initialize
 n_bright_pixel = nan(length(files), 1);
 intensity = nan(length(files),1);
+intensity_soma = nan(length(files),1);
+intensity_axon_dendrite = nan(length(files),1);
 
 % Create a VideoWriter object for the output video in the specified folder
 video_format = 'MPEG-4';
@@ -63,12 +65,6 @@ for i = start_frame:end_frame
             binary_frame = imbinarize(gray_frame, 'adaptive', 'Sensitivity', sensitivity_threshold);
     end
 
-    % Compute the number of bright pixels
-    n_bright_pixel(i) = sum(sum(binary_frame));
-
-    % Compute the number of bright pixels
-    intensity(i) = sum(gray_frame(binary_frame));
-
     % open (erosion and dilation)
     se = strel('disk', 5);
     binary_frame_opened = imopen(binary_frame, se);
@@ -84,7 +80,7 @@ for i = start_frame:end_frame
     else
 
         % make the max to be soma
-        [~, largest_idx] = max(n_pixels);        
+        [~, largest_idx] = max(n_pixels);
         soma(cc.PixelIdxList{largest_idx}) = true;
 
         % make the diff to be neurite
@@ -94,6 +90,14 @@ for i = start_frame:end_frame
     % open (erosion and dilation)
     se = strel('disk', 1);
     axon_dendrite_opened = imopen(axon_dendrite, se);
+
+    % n
+    n_bright_pixel(i) = sum(sum(binary_frame));
+
+    % I
+    intensity(i) = sum(gray_frame(binary_frame));
+    intensity_soma(i) = sum(gray_frame(soma));
+    intensity_axon_dendrite(i) = sum(gray_frame(axon_dendrite_opened));
 
     % Convert the binary frame to uint8 and write it to the video
     binary_frame_uint8 = uint8(binary_frame) * 255;
@@ -112,10 +116,10 @@ close(output_video);
 close(output_video_soma);
 close(output_video_neurite);
 
-% return
-if is_test
-    return
-end
+% % return
+% if is_test
+%     return
+% end
 
 %% Tukey for n
 IQR_index = 1;
@@ -149,6 +153,8 @@ is_outlier = is_outlier_1 | is_outlier_2;
 %% Save
 save(fullfile(folder_path, 'is_outlier.mat'), 'is_outlier');
 save(fullfile(folder_path, 'intensity.mat'), 'intensity');
+save(fullfile(folder_path, 'intensity_soma.mat'), 'intensity_soma');
+save(fullfile(folder_path, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite');
 
 %% close
 close all;
