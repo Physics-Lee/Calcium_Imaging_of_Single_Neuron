@@ -15,8 +15,8 @@ files = dir(fullfile(folder_path, '*.tif'));
 
 % test the super-parameter
 if is_test
-    start_frame = 16000;
-    end_frame = 16300;
+    start_frame = 12000;
+    end_frame = 14000;
     video_name_str = sprintf('%s_sense_%.4f_from_%d_to_%d.mp4',algorithm_type,sensitivity_threshold,start_frame,end_frame);
 else
     start_frame = 1;
@@ -63,9 +63,6 @@ for i = start_frame:end_frame
             binary_frame = imbinarize(gray_frame, 'adaptive', 'Sensitivity', sensitivity_threshold);
     end
 
-    % figure;
-    % imshow(binary_frame);
-
     % Compute the number of bright pixels
     n_bright_pixel(i) = sum(sum(binary_frame));
 
@@ -73,27 +70,33 @@ for i = start_frame:end_frame
     intensity(i) = sum(gray_frame(binary_frame));
 
     %
-    % se = strel('disk', 3);
-    % binary_frame_strel = imopen(binary_frame, se);
+    % visualize_watershed(binary_frame)
+
+    % structure element
+    se = strel('disk', 5);
+    binary_frame_streled = imopen(binary_frame, se);
+
+    % water shed
+    D = -bwdist(~binary_frame_streled);
+    L = watershed(D);
+    binary_frame_streled(L == 0) = 0;
 
     % connectivity component
-    cc = bwconncomp(binary_frame,4);
+    cc = bwconncomp(binary_frame_streled,4);
 
-    % 
+    % split
     n_pixels = cellfun(@numel, cc.PixelIdxList);
+    soma = false(size(binary_frame));
     if isempty(n_pixels)
-        soma = false(size(binary_frame));
-        neurite = false(size(binary_frame));
+        axon_dendrite = false(size(binary_frame));
     else
 
         % make the max to be soma
-        [~, largest_idx] = max(n_pixels);
-        soma = false(size(binary_frame));
+        [~, largest_idx] = max(n_pixels);        
         soma(cc.PixelIdxList{largest_idx}) = true;
 
         % make the diff to be neurite
-        neurite = binary_frame - soma;
-        neurite(neurite < 0) = 0;
+        axon_dendrite = binary_frame & ~soma;
     end
 
     % Convert the binary frame to uint8 and write it to the video
@@ -103,7 +106,7 @@ for i = start_frame:end_frame
     binary_frame_uint8_soma = uint8(soma) * 255;
     writeVideo(output_video_soma, binary_frame_uint8_soma);
 
-    binary_frame_uint8_neurite = uint8(neurite) * 255;
+    binary_frame_uint8_neurite = uint8(axon_dendrite) * 255;
     writeVideo(output_video_neurite, binary_frame_uint8_neurite);
 
 end
