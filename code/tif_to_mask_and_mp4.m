@@ -51,12 +51,12 @@ video_format = 'MPEG-4';
 fps = 100; % Hz
 
 output_video_red = open_a_video(folder_path_red,strcat(video_name_str_red,'_red.mp4'),video_format,fps);
-output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'.mp4','_soma_red.mp4'),video_format,fps);
-output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'.mp4','_neurite_red.mp4'),video_format,fps);
+output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_soma_red.mp4'),video_format,fps);
+output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_neurite_red.mp4'),video_format,fps);
 
 output_video_green = open_a_video(folder_path_green,strcat(video_name_str_green,'_green.mp4'),video_format,fps);
-output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'.mp4','_soma_green.mp4'),video_format,fps);
-output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'.mp4','_neurite_green.mp4'),video_format,fps);
+output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_soma_green.mp4'),video_format,fps);
+output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_neurite_green.mp4'),video_format,fps);
 
 %% Loop through the files
 for i = start_frame:end_frame
