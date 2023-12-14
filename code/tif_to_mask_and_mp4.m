@@ -5,7 +5,7 @@
 % 2023-12-12, Yixuan Li
 %
 
-function tif_to_mask_and_mp4(folder_path_red,folder_path_green,template,sense_red,sense_green,is_test,algorithm_type)
+function tif_to_mask_and_mp4(folder_path_red,folder_path_green,template,sense_red,sense_green,disk_size,is_test,algorithm_type)
 
 %% init
 
@@ -16,9 +16,6 @@ function tif_to_mask_and_mp4(folder_path_red,folder_path_green,template,sense_re
 G_size = 3;
 G_std = 3;
 h = fspecial('gaussian',[G_size,G_size],G_std);
-
-% set the opening size
-disk_size = 3;
 
 % test or not
 if is_test
