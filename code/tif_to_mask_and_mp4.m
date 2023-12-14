@@ -1,93 +1,112 @@
 % up-stream: from .tif to mask and .mp4
 %
-% method 1: imbinarize(gray_frame, 'adaptive', 'Sensitivity', sensitivity_threshold
-%
-% method 2: Guassian Adapt
+% binarization method: Direct Adapt or Guassian Adapt
 %
 % 2023-12-12, Yixuan Li
 %
 
-function tif_to_mask_and_mp4(folder_path,sensitivity_threshold,is_test,algorithm_type)
+function tif_to_mask_and_mp4(folder_path_red,folder_path_green,template,sensitivity_threshold,is_test,algorithm_type)
 
 %% init
-% Get a list of all .tif files in the folder
-files = dir(fullfile(folder_path, '*.tif'));
 
-% test the super-parameter
+% get paths
+files_red = dir(fullfile(folder_path_red, '*.tif'));
+n_frame_red = length(files_red);
+
+files_green = dir(fullfile(folder_path_green, '*.tif'));
+n_frame_green = length(files_green);
+
+% error
+if n_frame_red ~= n_frame_green
+    error("The red and green channel contain different number of frames!");
+end
+
+% set the Gaussian filter
+G_size = 3;
+G_std = 3;
+h = fspecial('gaussian',[G_size,G_size],G_std);
+
+% set the opening size
+disk_size = 3;
+
+% if test
 if is_test
     start_frame = 12000;
     end_frame = 12500;
-    video_name_str = sprintf('%s_sense_%.4f_from_%d_to_%d.mp4',algorithm_type,sensitivity_threshold,start_frame,end_frame);
+    video_name_str = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d.mp4',algorithm_type,G_size,G_std,sensitivity_threshold,disk_size,start_frame,end_frame);
 else
     start_frame = 1;
-    end_frame = length(files);
-    video_name_str = sprintf('%s_sense_%.4f.mp4',algorithm_type,sensitivity_threshold);
-
-    % save info
-    save_para_value_to_txt(folder_path, sensitivity_threshold)
+    end_frame = n_frame_red;
+    video_name_str = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d.mp4',algorithm_type,G_size,G_std,sensitivity_threshold,disk_size);
 end
 
-% Initialize
-n_bright_pixel = nan(length(files), 1);
-intensity = nan(length(files),1);
-intensity_soma = nan(length(files),1);
-intensity_axon_dendrite = nan(length(files),1);
+% Init
+n_bright_pixel = nan(n_frame_red, 1);
+intensity_red = nan(n_frame_red,1);
+intensity_soma_red = nan(n_frame_red,1);
+intensity_axon_dendrite_red = nan(n_frame_red,1);
+intensity_green = nan(n_frame_green,1);
+intensity_soma_green = nan(n_frame_green,1);
+intensity_axon_dendrite_green = nan(n_frame_green,1);
 
-% Create a VideoWriter object for the output video in the specified folder
+% Create VideoWriter
 video_format = 'MPEG-4';
 fps = 100; % Hz
-output_video = open_a_video(folder_path,video_name_str,video_format,fps);
-output_video_soma = open_a_video(folder_path,strrep(video_name_str,'.mp4','_soma.mp4'),video_format,fps);
-output_video_neurite = open_a_video(folder_path,strrep(video_name_str,'.mp4','_neurite.mp4'),video_format,fps);
-
-% set h
-h = fspecial('gaussian',[5,5],3);
+output_video = open_a_video(folder_path_red,video_name_str,video_format,fps);
+output_video_soma = open_a_video(folder_path_red,strrep(video_name_str,'.mp4','_soma.mp4'),video_format,fps);
+output_video_neurite = open_a_video(folder_path_red,strrep(video_name_str,'.mp4','_neurite.mp4'),video_format,fps);
 
 %% Loop through the files
 for i = start_frame:end_frame
 
-    % Initialize binary_frame for this iteration
+    % init
     binary_frame = [];
 
-    % Full path to the current file
-    full_path = fullfile(folder_path, files(i).name);
+    % get full path
+    full_path_red = fullfile(folder_path_red, files_red(i).name);
+    full_path_green = fullfile(folder_path_green, files_red(i).name);
 
-    % Read the image data from the TIFF file
-    gray_frame = imread(full_path);
+    % Load
+    gray_frame_red = imread(full_path_red);
+    gray_frame_green = imread(full_path_green);
 
-    % Binarization Method 1
+    % Binarization
     switch algorithm_type
         case "Gauss_Adapt"
-            c_filtered=imfilter(gray_frame,h,'replicate');
-            T = adaptthresh(c_filtered, sensitivity_threshold);
-            binary_frame = imbinarize(c_filtered, T);
+            binary_frame_red = Gauss_filter(gray_frame_red,h,sensitivity_threshold);
+            binary_frame_green = Gauss_filter(gray_frame_green,h,sensitivity_threshold);
         case "Direct_Adapt"
-            binary_frame = imbinarize(gray_frame, 'adaptive', 'Sensitivity', sensitivity_threshold);
+            binary_frame_red = imbinarize(gray_frame_red, 'adaptive', 'Sensitivity', sensitivity_threshold);
+            binary_frame_green = imbinarize(gray_frame_green, 'adaptive', 'Sensitivity', sensitivity_threshold);
     end
 
-    % open (erosion and dilation)
-    se = strel('disk', 5);
-    binary_frame_opened = imopen(binary_frame, se);
+    % open
+    switch template
+        case "red"
 
-    % connectivity
-    cc = bwconncomp(binary_frame_opened,4);
+            se = strel('disk', disk_size);
+            binary_frame_opened = imopen(binary_frame_red, se);
+        case "green"
+
+            se = strel('disk', disk_size);
+            binary_frame_opened = imopen(binary_frame_green, se);
+    end
 
     % split
+    cc = bwconncomp(binary_frame_opened,4);
     n_pixels = cellfun(@numel, cc.PixelIdxList);
     soma = false(size(binary_frame));
     if isempty(n_pixels)
         axon_dendrite = false(size(binary_frame));
     else
-
         % make the max to be soma
         [~, largest_idx] = max(n_pixels);
         soma(cc.PixelIdxList{largest_idx}) = true;
-
         % make the diff to be neurite
         axon_dendrite = binary_frame & ~soma;
     end
 
-    % open (erosion and dilation)
+    % open
     se = strel('disk', 1);
     axon_dendrite_opened = imopen(axon_dendrite, se);
 
@@ -95,9 +114,9 @@ for i = start_frame:end_frame
     n_bright_pixel(i) = sum(sum(binary_frame));
 
     % I
-    intensity(i) = sum(gray_frame(binary_frame));
-    intensity_soma(i) = sum(gray_frame(soma));
-    intensity_axon_dendrite(i) = sum(gray_frame(axon_dendrite_opened));
+    intensity_red(i) = sum(gray_frame_red(binary_frame));
+    intensity_soma_red(i) = sum(gray_frame_red(soma));
+    intensity_axon_dendrite_red(i) = sum(gray_frame_red(axon_dendrite_opened));
 
     % Convert the binary frame to uint8 and write it to the video
     binary_frame_uint8 = uint8(binary_frame) * 255;
@@ -129,7 +148,7 @@ xlabel("number of bright pixels of certain binary frame");
 ylabel("count");
 [~, ~, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(n_bright_pixel, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
-saveas(gcf,fullfile(folder_path, 'Tukey_test_of_n_of_bright_pixels'),'png');
+saveas(gcf,fullfile(folder_path_red, 'Tukey_test_of_n_of_bright_pixels'),'png');
 
 % Calculate outliers
 is_outlier_1 = mask_up | mask_down;
@@ -137,12 +156,12 @@ is_outlier_1 = mask_up | mask_down;
 %% Tukey for I
 IQR_index = 1;
 figure;
-histogram(intensity(~isnan(intensity)));
+histogram(intensity_red(~isnan(intensity_red)));
 xlabel("intensity of bright pixels of certain binary frame");
 ylabel("count");
-[~, ~, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(intensity, IQR_index);
+[~, ~, mask_up, mask_down, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(intensity_red, IQR_index);
 Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
-saveas(gcf,fullfile(folder_path, 'Tukey_test_of_I_of_bright_pixels'),'png');
+saveas(gcf,fullfile(folder_path_red, 'Tukey_test_of_I_of_bright_pixels'),'png');
 
 % Calculate outliers
 is_outlier_2 = mask_up | mask_down;
@@ -150,11 +169,16 @@ is_outlier_2 = mask_up | mask_down;
 %% union
 is_outlier = is_outlier_1 | is_outlier_2;
 
-%% Save
-save(fullfile(folder_path, 'is_outlier.mat'), 'is_outlier');
-save(fullfile(folder_path, 'intensity.mat'), 'intensity');
-save(fullfile(folder_path, 'intensity_soma.mat'), 'intensity_soma');
-save(fullfile(folder_path, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite');
+%% save
+save(fullfile(folder_path_red, 'is_outlier.mat'), 'is_outlier_red');
+save(fullfile(folder_path_red, 'intensity.mat'), 'intensity_red');
+save(fullfile(folder_path_red, 'intensity_soma.mat'), 'intensity_soma_red');
+save(fullfile(folder_path_red, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite_red');
+
+save(fullfile(folder_path_green, 'is_outlier.mat'), 'is_outlier_green');
+save(fullfile(folder_path_green, 'intensity.mat'), 'intensity_green');
+save(fullfile(folder_path_green, 'intensity_soma.mat'), 'intensity_soma_green');
+save(fullfile(folder_path_green, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite_green');
 
 %% close
 close all;
