@@ -7,7 +7,7 @@
 function intensity_and_mask_to_intensity(folder_path,analyze_area)
 
 % set frame per volume (5 for before 2023/10/30, 10 for after 2023/10/30)
-frame_per_volume = 5;
+frame_per_volume = 10;
 
 % save
 save_para_value_to_txt(folder_path, frame_per_volume)

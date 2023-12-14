@@ -18,7 +18,7 @@ folder_path_green = list_green{1};
 template = "red";
 sense_red = 0.2; % super-parameter
 sense_green = 0.2; % super-parameter
-disk_size = 5; % super-parameter
+disk_size = 3; % super-parameter
 is_test = false;
 algorithm_type = "Gauss_Adapt";
 
