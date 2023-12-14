@@ -31,9 +31,9 @@ if is_test
 else
     start_frame = 1;
     end_frame = n_frame;
-    video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d.mp4',...
+    video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d',...
         algorithm_type,G_size,G_std,sense_red,disk_size);
-    video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d.mp4',...
+    video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d',...
         algorithm_type,G_size,G_std,sense_green,disk_size);
 end
 
@@ -50,11 +50,11 @@ intensity_axon_dendrite_green = nan(n_frame,1);
 video_format = 'MPEG-4';
 fps = 100; % Hz
 
-output_video_red = open_a_video(folder_path_red,video_name_str_red,video_format,fps);
+output_video_red = open_a_video(folder_path_red,strcat(video_name_str_red,'_red.mp4'),video_format,fps);
 output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'.mp4','_soma_red.mp4'),video_format,fps);
 output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'.mp4','_neurite_red.mp4'),video_format,fps);
 
-output_video_green = open_a_video(folder_path_green,video_name_str_green,video_format,fps);
+output_video_green = open_a_video(folder_path_green,strcat(video_name_str_green,'_green.mp4'),video_format,fps);
 output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'.mp4','_soma_green.mp4'),video_format,fps);
 output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'.mp4','_neurite_green.mp4'),video_format,fps);
 
@@ -94,7 +94,7 @@ for i = start_frame:end_frame
             % flip
             soma_green = flip(soma_red, 2);
             axon_dendrite_green = binary_frame_green & ~soma_green;
-            axon_dendrite_green = opening_for_neurite(axon_dendrite_green);
+            axon_dendrite_green = opening_for_neurite(axon_dendrite_green,2);
 
         case "green"
             [soma_green,axon_dendrite_green] = split_soma_and_neurite(binary_frame_green,disk_size);
@@ -105,7 +105,7 @@ for i = start_frame:end_frame
             % flip
             soma_red = flip(soma_green, 2);
             axon_dendrite_red = binary_frame_red & ~soma_red;
-            axon_dendrite_red = opening_for_neurite(axon_dendrite_red);
+            axon_dendrite_red = opening_for_neurite(axon_dendrite_red,2);
 
     end
 
@@ -142,9 +142,9 @@ close(output_video_soma_green);
 close(output_video_neurite_green);
 
 % return
-if is_test
-    return
-end
+% if is_test
+%     return
+% end
 
 %% Tukey for n
 IQR_index = 1;
