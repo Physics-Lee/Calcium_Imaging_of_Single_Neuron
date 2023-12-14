@@ -24,16 +24,16 @@ disk_size = 3;
 if is_test
     start_frame = 12000;
     end_frame = 12300;
-    video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d',...
+    video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___red.mp4',...
         algorithm_type,G_size,G_std,sense_red,disk_size,start_frame,end_frame);
-    video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d',...
+    video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___green.mp4',...
         algorithm_type,G_size,G_std,sense_green,disk_size,start_frame,end_frame);
 else
     start_frame = 1;
     end_frame = n_frame;
-    video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d',...
+    video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___red.mp4',...
         algorithm_type,G_size,G_std,sense_red,disk_size);
-    video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d',...
+    video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___green.mp4',...
         algorithm_type,G_size,G_std,sense_green,disk_size);
 end
 
@@ -50,11 +50,11 @@ intensity_axon_dendrite_green = nan(n_frame,1);
 video_format = 'MPEG-4';
 fps = 100; % Hz
 
-output_video_red = open_a_video(folder_path_red,strcat(video_name_str_red,'_red.mp4'),video_format,fps);
+output_video_red = open_a_video(folder_path_red,video_name_str_red,video_format,fps);
 output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_soma_red.mp4'),video_format,fps);
 output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_neurite_red.mp4'),video_format,fps);
 
-output_video_green = open_a_video(folder_path_green,strcat(video_name_str_green,'_green.mp4'),video_format,fps);
+output_video_green = open_a_video(folder_path_green,video_name_str_green,video_format,fps);
 output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_soma_green.mp4'),video_format,fps);
 output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_neurite_green.mp4'),video_format,fps);
 
