@@ -19,7 +19,7 @@ template = "red";
 sense_red = 0.2; % super-parameter
 sense_green = 0.2; % super-parameter
 disk_size = 3; % super-parameter
-is_test = false;
+is_test = true;
 algorithm_type = "Gauss_Adapt";
 
 % main

@@ -83,26 +83,28 @@ for i = start_frame:end_frame
     % open
     switch template
         case "red"
-            [soma_red,axon_dendrite_red] = split_soma_and_neurite(binary_frame_red,disk_size);
+            % split the template
+            [soma_red,~] = split_soma_and_neurite(binary_frame_red,disk_size);
 
-            % open to remove the noise of the neurite
-            axon_dendrite_red = opening_for_neurite(axon_dendrite_red);
-
-            % flip
+            % split the other
             soma_green = flip(soma_red, 2);
             axon_dendrite_green = binary_frame_green & ~soma_green;
             axon_dendrite_green = opening_for_neurite(axon_dendrite_green,2);
 
-        case "green"
-            [soma_green,axon_dendrite_green] = split_soma_and_neurite(binary_frame_green,disk_size);
-
-            % open to remove the noise of the neurite
-            axon_dendrite_green = opening_for_neurite(axon_dendrite_green);
-
             % flip
+            axon_dendrite_red = flip(axon_dendrite_green, 2);
+
+        case "green"
+            % split the template
+            [soma_green,~] = split_soma_and_neurite(binary_frame_green,disk_size);
+
+            % split the other
             soma_red = flip(soma_green, 2);
             axon_dendrite_red = binary_frame_red & ~soma_red;
             axon_dendrite_red = opening_for_neurite(axon_dendrite_red,2);
+
+            % flip
+            axon_dendrite_green = flip(axon_dendrite_red, 2);
 
     end
 
