@@ -5,7 +5,7 @@
 % 2023-12-12, Yixuan Li
 %
 
-function tif_to_mask_and_mp4(folder_path_red,folder_path_green,template,sense_red,sense_green,disk_size,is_test,algorithm_type)
+function tif_to_mask_and_mp4(folder_path_red,folder_path_green,soma_template,sense_red,sense_green,disk_size,is_test,algorithm_type,neurite_template)
 
 %% init
 
@@ -20,7 +20,7 @@ h = fspecial('gaussian',[G_size,G_size],G_std);
 % test or not
 if is_test
     start_frame = 12000;
-    end_frame = 12300;
+    end_frame = 15000;
     video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___red.mp4',...
         algorithm_type,G_size,G_std,sense_red,disk_size,start_frame,end_frame);
     video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___green.mp4',...
@@ -48,12 +48,12 @@ video_format = 'MPEG-4';
 fps = 100; % Hz
 
 output_video_red = open_a_video(folder_path_red,video_name_str_red,video_format,fps);
-output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_soma_red.mp4'),video_format,fps);
-output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_neurite_red.mp4'),video_format,fps);
+output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_soma.mp4'),video_format,fps);
+output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_neurite.mp4'),video_format,fps);
 
 output_video_green = open_a_video(folder_path_green,video_name_str_green,video_format,fps);
-output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_soma_green.mp4'),video_format,fps);
-output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_neurite_green.mp4'),video_format,fps);
+output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_soma.mp4'),video_format,fps);
+output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_neurite.mp4'),video_format,fps);
 
 %% Loop through the files
 for i = start_frame:end_frame
@@ -81,30 +81,40 @@ for i = start_frame:end_frame
     end
 
     % open
-    switch template
+    switch soma_template
         case "red"
             % split the template
-            [soma_red,~] = split_soma_and_neurite(binary_frame_red,disk_size);
+            [soma_red,axon_dendrite_red] = split_soma_and_neurite(binary_frame_red,disk_size);
 
             % split the other
             soma_green = flip(soma_red, 2);
             axon_dendrite_green = binary_frame_green & ~soma_green;
             axon_dendrite_green = opening_for_neurite(axon_dendrite_green,2);
 
-            % flip
-            axon_dendrite_red = flip(axon_dendrite_green, 2);
+            %
+            switch neurite_template
+                case "same"
+                    axon_dendrite_red = opening_for_neurite(axon_dendrite_red,2);
+                case "opposite"
+                    axon_dendrite_red = flip(axon_dendrite_green, 2);
+            end
 
         case "green"
             % split the template
-            [soma_green,~] = split_soma_and_neurite(binary_frame_green,disk_size);
+            [soma_green,axon_dendrite_green] = split_soma_and_neurite(binary_frame_green,disk_size);
 
             % split the other
             soma_red = flip(soma_green, 2);
             axon_dendrite_red = binary_frame_red & ~soma_red;
             axon_dendrite_red = opening_for_neurite(axon_dendrite_red,2);
 
-            % flip
-            axon_dendrite_green = flip(axon_dendrite_red, 2);
+            %
+            switch neurite_template
+                case "same"
+                    axon_dendrite_green = opening_for_neurite(axon_dendrite_green,2);
+                case "opposite"
+                    axon_dendrite_green = flip(axon_dendrite_red, 2);
+            end
 
     end
 

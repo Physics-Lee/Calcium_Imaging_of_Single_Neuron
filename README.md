@@ -1,3 +1,5 @@
+# Get the Intensity
+
 steps:
 
 * `.tif` -> `is_outlier.mat`,`.mp4`, `intensity.mat`
@@ -35,3 +37,19 @@ parameter
 
 * frame per volume: 5 or 10
 * volume per second: 5 or 10
+
+
+
+# Split the Soma and the Neurite
+
+super-parameter
+
+* sense
+* disk_r
+
+
+
+note:
+
+* Usually, $sense = 0.2$ is OK. In other words, you don't need to fine tune this super-parameter.
+* $disk_r$ is needed to changed. You must tune it to split the soma and the neurite of the template channel. $disk_r \in \{3,4,5,6,7,8\}$
