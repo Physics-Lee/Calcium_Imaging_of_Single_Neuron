@@ -19,7 +19,7 @@ soma_template = "red";
 sense_red = 0.2; % super-parameter
 sense_green = 0.2; % super-parameter
 disk_size = 3; % super-parameter
-is_test = true;
+is_test = false;
 algorithm_type = "Gauss_Adapt";
 neurite_template = "opposite";
 

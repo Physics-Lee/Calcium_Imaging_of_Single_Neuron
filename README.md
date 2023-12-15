@@ -42,6 +42,8 @@ parameter
 
 # Split the Soma and the Neurite
 
+## tune
+
 super-parameter
 
 * sense
@@ -53,3 +55,22 @@ note:
 
 * Usually, $sense = 0.2$ is OK. In other words, you don't need to fine tune this super-parameter.
 * $disk_r$ is needed to changed. You must tune it to split the soma and the neurite of the template channel. $disk_r \in \{3,4,5,6,7,8\}$
+
+
+
+## template
+
+Conditions for the soma template: neurite and soma are easy enough to be split.
+
+Conditions for the neurite template
+
+* neurite is bright enough.
+* neurite and soma are easy enough to be split.
+
+In the big-gradient exp, usually, the red channel is used as soma template and the green channel is used as neurite template.
+
+
+
+## halo
+
+Use opening to remove the halo of the soma after digging out the soma from the original BW.
