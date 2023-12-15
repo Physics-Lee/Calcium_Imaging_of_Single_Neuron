@@ -86,8 +86,8 @@ I_ratio_normalized = normalization_dividing_by_the_mean(I_ratio);
 plot(1:length(I_ratio_normalized),I_ratio_normalized,'k');
 xlabel("volume","FontSize",20);
 ylabel("$\frac{ratio-<ratio>}{<ratio>}$","Interpreter","latex","FontSize",20);
-ylim([-1 +1]);
-% ylim([-0.5 +0.5]);
+% ylim([-1 +1]);
+ylim([-0.5 +0.5]);
 
 set_full_screen;
 saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');

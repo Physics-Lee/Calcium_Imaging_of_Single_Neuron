@@ -111,7 +111,7 @@ for i = start_frame:end_frame
             %
             switch neurite_template
                 case "same"
-                    axon_dendrite_green = opening_for_neurite(axon_dendrite_green,1);
+                    axon_dendrite_green = opening_for_neurite(axon_dendrite_green,2);
                 case "opposite"
                     axon_dendrite_green = flip(axon_dendrite_red, 2);
             end
