@@ -15,10 +15,10 @@ list_green = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(folder_path
 folder_path_green = list_green{1};
 
 % para
-soma_template = "red";
-sense_red = 0.2; % super-parameter
-sense_green = 0.2; % super-parameter
-disk_size = 3; % super-parameter
+soma_template = "green";
+sense_red = 0.3; % super-parameter
+sense_green = 0.25; % super-parameter
+disk_size = 5; % super-parameter
 is_test = true;
 algorithm_type = "Gauss_Adapt";
 neurite_template = "same";

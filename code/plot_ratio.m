@@ -12,10 +12,11 @@ IQR_index = 3;
 [~, ~, mask_up, mask_down, ~, ~, ~, ~] = Tukey_test(I_ratio, IQR_index);
 I_ratio(mask_up | mask_down) = nan;
 
+% inf 2 nan
+I_ratio(I_ratio == Inf) = nan;
+
 % plot
 plot(1:length(I_ratio),I_ratio,'k');
-% xlabel("volume","FontSize",20);
 ylabel("$ratio := \frac{I_{green}}{I_{red}}$","Interpreter","latex","FontSize",20);
-% title("$ratio = \frac{I_{green}}{I_{red}}$","Interpreter","latex","FontSize",20);
 
 end
