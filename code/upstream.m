@@ -1,4 +1,4 @@
-   % up-stream: from .tif to mask and .mp4
+% up-stream: from .tif to mask and .mp4
 %
 % 2023-12-04, Yixuan Li
 %
@@ -18,7 +18,7 @@ folder_path_green = list_green{1};
 soma_template = "green";
 sense_red = 0.2; % super-parameter
 sense_green = 0.2; % super-parameter
-disk_size = 5; % super-parameter
+disk_size = 3; % super-parameter
 is_test = false;
 algorithm_type = "Gauss_Adapt";
 neurite_template = "same";
