@@ -94,24 +94,23 @@ saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
 saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
 
 %% plot normalized I
-% figure;
-%
-% subplot(3,1,1)
-% I_1_normalized = plot_intensity_normalized(I_1,list{1});
-%
-% subplot(3,1,2)
-% I_2_normalized = plot_intensity_normalized(I_2,list{2});
-%
-% subplot(3,1,3)
-% if I_1_info == "Red"
-%     plot_ratio(I_1_normalized,I_2_normalized);
-% else
-%     plot_ratio(I_2_normalized,I_1_normalized);
-% end
-%
-% set_full_screen;
-% saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
-% saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'fig');
+figure;
+
+subplot(3,1,1)
+I_1_normalized = plot_intensity_normalized(I_1,list{1});
+
+subplot(3,1,2)
+I_2_normalized = plot_intensity_normalized(I_2,list{2});
+
+subplot(3,1,3)
+if I_1_info == "Red"
+    plot_ratio(I_1_normalized,I_2_normalized);
+else
+    plot_ratio(I_2_normalized,I_1_normalized);
+end
+
+set_full_screen;
+saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
 
 %% Corr
 is_nan_1 = isnan(I_1);
