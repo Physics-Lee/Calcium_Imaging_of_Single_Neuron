@@ -19,8 +19,8 @@ h = fspecial('gaussian',[G_size,G_size],G_std);
 
 % test or not
 if is_test
-    start_frame = 3000;
-    end_frame = 5000;
+    start_frame = 2000;
+    end_frame = 2500;
     video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___red.mp4',...
         algorithm_type,G_size,G_std,sense_red,disk_size,start_frame,end_frame);
     video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___green.mp4',...
