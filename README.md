@@ -17,6 +17,10 @@ down-stream
 
 # How to Get the Intensity?
 
+Answer: Use binarization.
+
+note:
+
 * How to detect outliers?
 
   * Tukey test of the number of bright pixels of certain binary frame. IQR_index = 1
@@ -24,11 +28,15 @@ down-stream
   * Tukey test of the `intensity_volume` of certain volume. IQR_index = 1
   * Tukey test of the diff or ratio. IQR_index = 3
 
-* How to deal with outliers?: make them to be nan.
+* How to deal with outliers?
+  * make them to be nan.
+
 
 
 
 # How to Split the Soma and the Neurite?
+
+Answer: Use opening.
 
 ## tune
 
