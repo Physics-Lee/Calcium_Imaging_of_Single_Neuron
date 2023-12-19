@@ -4,8 +4,18 @@
 %
 
 clc;clear;close all;
+
+dbstop if error;
+
+my_add_path();
+
+%% choose the path to the intermediate files
 root_path = uigetdir;
+
+%% choose the area that you want to analyze
 analyze_area = "soma";
+
+%% main
 if root_path ~= 0
     root_list = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(root_path,'w');
     [indx,tf] = listdlg('ListString',root_list,'ListSize',[800,600],'Name','Chose files');

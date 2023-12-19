@@ -1,11 +1,20 @@
 % up-stream: from .tif to mask and .mp4
 %
-% binarization method: Direct Adapt or Guassian Adapt
+% For binarization:
+% binarization method: "Direct_Adapt", "Gauss_Adapt".
+% sensitivity threshold: higher, more bright pixels.
 %
-% 2023-12-12, Yixuan Li
+% For opening:
+% template: use which channel's binarization result as the template.
+% disk_size: larger, open more heavily.
+%
+% 2023-12-19, Yixuan Li
 %
 
-function tif_to_mask_and_mp4(folder_path_red,folder_path_green,soma_template,sense_red,sense_green,disk_size,is_test,algorithm_type,neurite_template)
+function tif_to_mask_and_mp4(folder_path_red,folder_path_green, ...
+    binarization_method,sense_red,sense_green,...
+    all_template,soma_template,neurite_template,disk_size,...
+    is_test,start_frame,end_frame)
 
 %% init
 
@@ -19,19 +28,18 @@ h = fspecial('gaussian',[G_size,G_size],G_std);
 
 % test or not
 if is_test
-    start_frame = 2000;
-    end_frame = 2500;
+
     video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___red.mp4',...
-        algorithm_type,G_size,G_std,sense_red,disk_size,start_frame,end_frame);
+        binarization_method,G_size,G_std,sense_red,disk_size,start_frame,end_frame);
     video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___from_%d_to_%d___green.mp4',...
-        algorithm_type,G_size,G_std,sense_green,disk_size,start_frame,end_frame);
+        binarization_method,G_size,G_std,sense_green,disk_size,start_frame,end_frame);
 else
     start_frame = 1;
     end_frame = n_frame;
     video_name_str_red = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___red.mp4',...
-        algorithm_type,G_size,G_std,sense_red,disk_size);
+        binarization_method,G_size,G_std,sense_red,disk_size);
     video_name_str_green = sprintf('%s_size_%d_std_%d_sense_%.4f___disk_%d___green.mp4',...
-        algorithm_type,G_size,G_std,sense_green,disk_size);
+        binarization_method,G_size,G_std,sense_green,disk_size);
 end
 
 % Init
@@ -71,7 +79,7 @@ for i = start_frame:end_frame
     gray_frame_green = imread(full_path_green);
 
     % Binarization
-    switch algorithm_type
+    switch binarization_method
         case "Gauss_Adapt"
             binary_frame_red = Gauss_filter(gray_frame_red,h,sense_red);
             binary_frame_green = Gauss_filter(gray_frame_green,h,sense_green);
@@ -118,19 +126,7 @@ for i = start_frame:end_frame
 
     end
 
-    % n
-    n_bright_pixel(i) = sum(sum(binary_frame_red));
-
-    % I
-    intensity_red(i) = sum(gray_frame_red(binary_frame_red));
-    intensity_soma_red(i) = sum(gray_frame_red(soma_red));
-    intensity_axon_dendrite_red(i) = sum(gray_frame_red(axon_dendrite_red));
-
-    intensity_green(i) = sum(gray_frame_green(binary_frame_green));
-    intensity_soma_green(i) = sum(gray_frame_green(soma_green));
-    intensity_axon_dendrite_green(i) = sum(gray_frame_green(axon_dendrite_green));
-
-    % write
+    % write to the video before applying all_template
     write_to_a_video(output_video_red,binary_frame_red)
     write_to_a_video(output_video_soma_red,soma_red)
     write_to_a_video(output_video_neurite_red,axon_dendrite_red)
@@ -138,6 +134,26 @@ for i = start_frame:end_frame
     write_to_a_video(output_video_green,binary_frame_green)
     write_to_a_video(output_video_soma_green,soma_green)
     write_to_a_video(output_video_neurite_green,axon_dendrite_green)
+
+    %
+    switch all_template
+        case "red"
+            binary_frame_green = flip(binary_frame_red,2);
+        case "green"
+            binary_frame_red = flip(binary_frame_green,2);
+    end
+
+    % save n
+    n_bright_pixel(i) = sum(sum(binary_frame_red));
+
+    % save I
+    intensity_red(i) = sum(gray_frame_red(binary_frame_red));
+    intensity_soma_red(i) = sum(gray_frame_red(soma_red));
+    intensity_axon_dendrite_red(i) = sum(gray_frame_red(axon_dendrite_red));
+
+    intensity_green(i) = sum(gray_frame_green(binary_frame_green));
+    intensity_soma_green(i) = sum(gray_frame_green(soma_green));
+    intensity_axon_dendrite_green(i) = sum(gray_frame_green(axon_dendrite_green));
 
 end
 
@@ -151,9 +167,9 @@ close(output_video_soma_green);
 close(output_video_neurite_green);
 
 % return
-% if is_test
-%     return
-% end
+if is_test
+    return
+end
 
 %% Tukey for n
 IQR_index = 1;
