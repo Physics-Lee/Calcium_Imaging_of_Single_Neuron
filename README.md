@@ -1,46 +1,34 @@
-# Get the Intensity
+# Workflow
 
-steps:
+up-stream
 
-* `.tif` -> `is_outlier.mat`,`.mp4`, `intensity.mat`
+* `.tif` -> `is_outlier.mat`, `.mp4`, `intensity.mat`
+
+
+down-stream
 
 * 2 `is_outlier.mat` -> `is_outlier_union.mat`
 
 * `intensity.mat`, `is_outlier_union.mat` ->`intensity.mat`,  `intensity_volume.mat`
 
-* 2 `intensity_volume.mat` -> figure
+* 2 `intensity_volume.mat` -> figures
 
 
 
-note:
+# How to Get the Intensity?
 
 * How to detect outliers?
 
-  * Tukey test of the number of bright pixels of certian binary frame. IQR_index = 1
-  * Tukey test of the intensity of bright pixels of certian binary frame. IQR_index = 1
-  * Tukey test of the `intensity_volume` of certian volume. IQR_index = 1
+  * Tukey test of the number of bright pixels of certain binary frame. IQR_index = 1
+  * Tukey test of the intensity of bright pixels of certain binary frame. IQR_index = 1
+  * Tukey test of the `intensity_volume` of certain volume. IQR_index = 1
   * Tukey test of the diff or ratio. IQR_index = 3
 
 * How to deal with outliers?: make them to be nan.
 
 
 
-
-super-parameter
-
-* sense threshold: 0.01, 0.1, 0.2
-* IQR index
-
-
-
-parameter
-
-* frame per volume: 5 or 10
-* volume per second: 5 or 10
-
-
-
-# Split the Soma and the Neurite
+# How to Split the Soma and the Neurite?
 
 ## tune
 
@@ -67,10 +55,16 @@ Conditions for the neurite template
 * neurite is bright enough.
 * neurite and soma are easy enough to be split.
 
-In the big-gradient exp, usually, the red channel is used as soma template and the green channel is used as neurite template.
+Conditions for the all template: bright enough.
+
+In the big-gradient exp, usually
+
+* the red channel is used as the soma template.
+* the green channel is used as the neurite template.
+* the green channel is used as the all template.
 
 
 
 ## halo
 
-Use opening to remove the halo of the soma after digging out the soma from the original BW.
+Use opening to remove the halo of the soma after digging out it from the original BW.

@@ -1,4 +1,4 @@
-% up-stream: from .tif to mask and .mp4
+% up-stream
 %
 % For binarization:
 % binarization method: "Direct_Adapt", "Gauss_Adapt".
