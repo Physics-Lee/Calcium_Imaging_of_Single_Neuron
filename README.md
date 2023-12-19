@@ -48,16 +48,15 @@ note:
 
 ## template
 
-Conditions for the soma template: neurite and soma are easy enough to be split.
+Requirements
 
-Conditions for the neurite template
+* for the soma template: the soma and the neurite are easy enough to be split.
+* for the neurite template: the neurite is brighter than the other channel.
+* for the all template: the soma and the neurite are brighter than the other channel.
 
-* neurite is bright enough.
-* neurite and soma are easy enough to be split.
 
-Conditions for the all template: bright enough.
 
-In the big-gradient exp, usually
+For example, in our taxis project in 2023/11, the green channel is brighter than the red channel, so
 
 * the red channel is used as the soma template.
 * the green channel is used as the neurite template.
