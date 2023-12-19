@@ -1,6 +1,19 @@
 % up-stream: from .tif to mask and .mp4
 %
-% 2023-12-04, Yixuan Li
+% For binarization:
+% binarization method: "Direct_Adapt", "Gauss_Adapt".
+% sensitivity threshold: higher, more bright pixels.
+%
+% For opening:
+% template: use which channel's binarization result as the template.
+% disk_size: larger, open more heavily.
+%
+% For test:
+% is_test: "true", "false".
+% You can set it as "true" with setting the start frame and the end frame 
+% to test the super-parameter.
+%
+% 2023-12-19, Yixuan Li
 %
 
 clc;clear;close all;

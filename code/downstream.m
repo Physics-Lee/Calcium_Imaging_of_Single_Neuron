@@ -13,7 +13,10 @@ my_add_path();
 root_path = uigetdir;
 
 %% choose the area that you want to analyze
-analyze_area = "soma";
+analyze_area = "all";
+
+%% change this parameter to the frame per volume of your experiment
+frame_per_volume = 10;
 
 %% main
 if root_path ~= 0
@@ -26,8 +29,7 @@ if root_path ~= 0
             %% is_outlier to is_outlier_union
             union_of_red_and_green_mask(folder_path);
 
-            %% I_frame and is_outlier_union to I_volume 
-            frame_per_volume = 1;
+            %% I_frame and is_outlier_union to I_volume            
             
             list = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'Red');
             folder_path_Red = list{1};

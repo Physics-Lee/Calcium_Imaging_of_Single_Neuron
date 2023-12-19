@@ -1,13 +1,5 @@
 % up-stream: from .tif to mask and .mp4
 %
-% For binarization:
-% binarization method: "Direct_Adapt", "Gauss_Adapt".
-% sensitivity threshold: higher, more bright pixels.
-%
-% For opening:
-% template: use which channel's binarization result as the template.
-% disk_size: larger, open more heavily.
-%
 % 2023-12-19, Yixuan Li
 %
 
@@ -168,7 +160,7 @@ close(output_video_neurite_green);
 
 % return
 if is_test
-    return
+    % return
 end
 
 %% Tukey for n
