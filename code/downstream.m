@@ -16,7 +16,8 @@ root_path = uigetdir;
 analyze_area = "all";
 
 %% change this parameter to the frame per volume of your experiment
-frame_per_volume = 10;
+frame_per_volume = 1;
+volume_per_second = 25;
 
 %% main
 if root_path ~= 0
@@ -41,13 +42,13 @@ if root_path ~= 0
 
             %% I_volume to figures
             pooling_method = "mean";
-            draw_red_green_together(folder_path,pooling_method,analyze_area);
+            draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
 
             pooling_method = "max";
-            draw_red_green_together(folder_path,pooling_method,analyze_area);
+            draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
 
             pooling_method = "median";
-            draw_red_green_together(folder_path,pooling_method,analyze_area);
+            draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
         end
     end
 end

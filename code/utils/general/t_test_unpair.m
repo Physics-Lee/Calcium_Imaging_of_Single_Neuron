@@ -1,23 +1,24 @@
-% Sample data
-data1 = randn(30,1); % Random data for group 1
-data2 = randn(30,1) + 1; % Random data for group 2 (with a different mean)
+clc;clear;close all;
 
-% Unpaired t-test
-[h, p, ci, stats] = ttest2(data1, data2);
+%%
+n_sample = 40;
+data_1 = randn(n_sample,1) + 10; % Random data for group 1
+data_2 = randn(n_sample,1) + 10.4; % Random data for group 2 (with a different mean)
+two_sample_t_test(data_1,data_2)
 
-% Bar graph
-means = [mean(data1), mean(data2)];
-errors = [std(data1)/sqrt(length(data1)), std(data2)/sqrt(length(data2))];
-bar(means);
-hold on;
-errorbar(means, errors, '.');
-hold off;
+%%
+data_1_z_score = normalization_z_score(data_1);
+data_2_z_score = normalization_z_score(data_2);
+two_sample_t_test(data_1_z_score,data_2_z_score)
 
-% Display p-value
-p_value_text = sprintf('p = %.3f', p);
-text(1.5, max(means) + max(errors), p_value_text, 'HorizontalAlignment', 'center');
+%%
+n = 10;
+two_sample_t_test(n*data_1,n*data_2)
 
-% Labels and Title
-xlabel('Group');
-ylabel('Mean Value');
-title('Unpaired t-test and Bar Graph with P-value');
+%%
+n = 1/10;
+two_sample_t_test(n*data_1,n*data_2)
+
+%%
+n = 1/100;
+two_sample_t_test(n*data_1,n*data_2)

@@ -3,7 +3,7 @@
 % 2023-12-13, Yixuan Li
 %
 
-function draw_red_green_together(folder_path,pooling_method,analyze_area)
+function draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second)
 
 % Get a list of all .tif files in the folder
 switch pooling_method
@@ -94,23 +94,28 @@ saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'png');
 saveas(gcf,fullfile(save_folder_path, 'intensity_r_g_ratio'),'fig');
 
 %% plot normalized I
-% figure;
-% 
-% subplot(3,1,1)
-% I_1_normalized = plot_intensity_normalized(I_1,list{1});
-% 
-% subplot(3,1,2)
-% I_2_normalized = plot_intensity_normalized(I_2,list{2});
-% 
-% subplot(3,1,3)
-% if I_1_info == "Red"
-%     plot_ratio(I_1_normalized,I_2_normalized);
-% else
-%     plot_ratio(I_2_normalized,I_1_normalized);
-% end
-% 
-% set_full_screen;
-% saveas(gcf,fullfile(save_folder_path, 'intensity_normalized_r_g_ratio'),'png');
+figure;
+I_1_normalized = plot_intensity_normalized(I_1,list{1});
+subtitle(sprintf("volume per second = %d",volume_per_second));
+set_full_screen;
+
+figure;
+I_2_normalized = plot_intensity_normalized(I_2,list{2});
+subtitle(sprintf("volume per second = %d",volume_per_second));
+set_full_screen;
+
+%% plot I
+figure;
+plot_intensity(I_1,list{1});
+xlabel("volume","FontSize",20);
+subtitle(sprintf("volume per second = %d",volume_per_second));
+set_full_screen;
+
+figure;
+plot_intensity(I_2,list{2});
+xlabel("volume","FontSize",20);
+subtitle(sprintf("volume per second = %d",volume_per_second));
+set_full_screen;
 
 %% Corr
 is_nan_1 = isnan(I_1);
