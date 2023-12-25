@@ -6,7 +6,8 @@
 function tif_to_mask_and_mp4(folder_path_red,folder_path_green, ...
     binarization_method,sense_red,sense_green,...
     all_template,soma_template,neurite_template,disk_size,...
-    is_test,start_frame,end_frame)
+    is_test,start_frame,end_frame,...
+    use_open_for_all)
 
 %% init
 
@@ -80,6 +81,15 @@ for i = start_frame:end_frame
             binary_frame_green = imbinarize(gray_frame_green, 'adaptive', 'Sensitivity', sense_green);
     end
 
+    % open for all (special for Liu Qi's SAA)
+    switch use_open_for_all
+        case true
+            disk_size_all = 1;
+            binary_frame_red = opening_for_neurite(binary_frame_red,disk_size_all);
+            binary_frame_green = opening_for_neurite(binary_frame_green,disk_size_all);
+        case false
+    end
+
     % open
     switch soma_template
         case "red"
@@ -127,7 +137,7 @@ for i = start_frame:end_frame
     write_to_a_video(output_video_soma_green,soma_green)
     write_to_a_video(output_video_neurite_green,axon_dendrite_green)
 
-    %
+    % for all template
     switch all_template
         case "red"
             binary_frame_green = flip(binary_frame_red,2);

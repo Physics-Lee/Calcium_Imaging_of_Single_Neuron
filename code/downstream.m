@@ -16,8 +16,8 @@ root_path = uigetdir;
 analyze_area = "all";
 
 %% change this parameter to the frame per volume of your experiment
-frame_per_volume = 1;
-volume_per_second = 25;
+frame_per_volume = 10;
+volume_per_second = 5;
 
 %% main
 if root_path ~= 0

@@ -13,6 +13,9 @@
 % You can set it as "true" with setting the start frame and the end frame 
 % to test the super-parameter.
 %
+% Open for all:
+% You can increase sensation threshold and then use opening for all.
+%
 % 2023-12-19, Yixuan Li
 %
 
@@ -31,20 +34,23 @@ folder_path_green = list_green{1};
 
 %% set parameters
 binarization_method = "Gauss_Adapt";
-sense_red = 0.2; % super-parameter
-sense_green = 0.2; % super-parameter
+sense_red = 0.5; % super-parameter
+sense_green = 0.5; % super-parameter
 
 all_template = "green";
 soma_template = "red";
 neurite_template = "opposite";
 disk_size = 3; % super-parameter
 
-is_test = true;
-start_frame = 2000;
+is_test = false;
+start_frame = 1997;
 end_frame = 2500;
+
+use_open_for_all = true;
 
 %% main
 tif_to_mask_and_mp4(folder_path_red,folder_path_green, ...
     binarization_method,sense_red,sense_green,...
     all_template,soma_template,neurite_template,disk_size,...
-    is_test,start_frame,end_frame);
+    is_test,start_frame,end_frame,...
+    use_open_for_all);

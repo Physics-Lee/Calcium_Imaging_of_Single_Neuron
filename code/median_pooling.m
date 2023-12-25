@@ -5,7 +5,7 @@ n = numel(intensity);
 num_groups = floor(n / frame_per_volume);
 intensity_reshaped = reshape(intensity(1:num_groups*frame_per_volume), frame_per_volume, []);
 
-% Calculate median, treating columns with any NaN as NaN
+% Calculate median, omit nan
 intensity_volume = median(intensity_reshaped, 1, 'omitnan');
 intensity_volume = intensity_volume';
 
