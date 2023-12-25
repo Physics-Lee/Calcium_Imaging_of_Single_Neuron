@@ -81,7 +81,7 @@ for i = start_frame:end_frame
             binary_frame_green = imbinarize(gray_frame_green, 'adaptive', 'Sensitivity', sense_green);
     end
 
-    % open for all (special for Liu Qi's SAA)
+    % open for all
     switch use_open_for_all
         case true
             disk_size_all = 1;

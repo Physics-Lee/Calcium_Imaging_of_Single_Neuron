@@ -1,4 +1,5 @@
-function mcdf=yaml2matlab(file)
+function mcdf = yaml2matlab(file)
+
 % This function reads in a yaml file produced by the MindControl Software
 % and exports an array of MindControl Data Frames (mcdf's) that is easy to
 % manipulate in matlab.
@@ -6,7 +7,6 @@ function mcdf=yaml2matlab(file)
 % Andrew Leifer
 % leifer@fas.harvard.edu
 % 2 November 2010
-
 
 fid = fopen(file); 
 

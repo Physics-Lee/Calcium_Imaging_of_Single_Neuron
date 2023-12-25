@@ -1,4 +1,5 @@
 function ret =seekToFirstFrame(fid)
+
 % This function seeks to the the first frame of a YAML data file produced
 % by the MindControl software.
 %

@@ -132,8 +132,10 @@ fieldName=q{1}{1};
 end
 
 function [val tline]=getVal(fid,str)
+
 % Function to parse an integer value
 % And increment ot the nextg line
+
 if isFieldWithValue(str)
     tmp=textscan(str,'%s','Delimiter',':');
     val=str2num(tmp{1}{2});
