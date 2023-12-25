@@ -43,8 +43,8 @@ neurite_template = "opposite";
 disk_size = 3; % super-parameter
 
 is_test = false;
-start_frame = 1997;
-end_frame = 2500;
+start_frame = 1500;
+end_frame = 2000;
 
 use_open_for_all = true;
 
