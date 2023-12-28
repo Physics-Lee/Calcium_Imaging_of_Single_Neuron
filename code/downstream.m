@@ -10,7 +10,7 @@ dbstop if error;
 my_add_path();
 
 %% choose the path to the intermediate files
-root_path = uigetdir;
+root_folder_path = uigetdir;
 
 %% choose the area that you want to analyze
 analyze_area = "all";
@@ -20,9 +20,9 @@ frame_per_volume = 10;
 volume_per_second = 5;
 
 %% main
-if root_path ~= 0
-    root_list = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(root_path,'w');
-    [indx,tf] = listdlg('ListString',root_list,'ListSize',[800,600],'Name','Chose files');
+if root_folder_path ~= 0
+    root_list = get_all_folders_of_a_certain_name_pattern_in_a_rootpath(root_folder_path,'w');
+    [indx,tf] = listdlg('ListString',root_list,'ListSize',[800,600],'Name','Choose files');
     if tf==1
         for i = indx
             folder_path = root_list{i};
