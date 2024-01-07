@@ -177,21 +177,31 @@ for i = start_frame:end_frame
     if ~isempty(region_prop)
         for k = 1:n_worm
 
-            % get region (figure in MATLAB is down for x and right for y, while in Image-J is down for y and right for x)
+            % get region for red(figure in MATLAB is down for x and right for y, while in Image-J is down for y and right for x)
             y_min = region_prop(k,1);
             y_max = region_prop(k,2);
             x_min = region_prop(k,3);
             x_max = region_prop(k,4);
 
-            % get musk
-            mask = false(size(binary_frame_red));
-            mask(x_min:x_max,y_min:y_max) = true;
+            % get musk for red
+            mask_red = false(size(binary_frame_red));
+            mask_red(x_min:x_max,y_min:y_max) = true;
+
+            % get region for green
+            y_max = region_prop(k,1);
+            y_min = region_prop(k,2);
+            x_min = region_prop(k,3);
+            x_max = region_prop(k,4);
+
+            % get musk for green
+            mask_green = false(size(binary_frame_green));
+            mask_green(x_min:x_max,y_min:y_max) = true; 
 
             % get Intensity
-            binary_frame_red_for_current_worm = binary_frame_red & mask;
+            binary_frame_red_for_current_worm = binary_frame_red & mask_red;
             intensity_red_for_current_worm = sum(gray_frame_red(binary_frame_red_for_current_worm));
 
-            binary_frame_green_for_current_worm = binary_frame_green & mask;
+            binary_frame_green_for_current_worm = binary_frame_green & mask_green;
             intensity_green_for_current_worm = sum(gray_frame_green(binary_frame_green_for_current_worm));
 
             % save to a cell array
@@ -245,13 +255,13 @@ save(fullfile(folder_path_red, 'is_outlier.mat'), 'is_outlier');
 save(fullfile(folder_path_red, 'intensity.mat'), 'intensity_red');
 save(fullfile(folder_path_red, 'intensity_soma.mat'), 'intensity_soma_red');
 save(fullfile(folder_path_red, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite_red');
-save(fullfile(folder_path_red, 'intensity_red_split_worm.mat'), 'intensity_red_split_worm');
+save(fullfile(folder_path_red, 'intensity_split_worm.mat'), 'intensity_red_split_worm');
 
 save(fullfile(folder_path_green, 'is_outlier.mat'), 'is_outlier');
 save(fullfile(folder_path_green, 'intensity.mat'), 'intensity_green');
 save(fullfile(folder_path_green, 'intensity_soma.mat'), 'intensity_soma_green');
 save(fullfile(folder_path_green, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite_green');
-save(fullfile(folder_path_green, 'intensity_green_split_worm.mat'), 'intensity_green_split_worm');
+save(fullfile(folder_path_green, 'intensity_split_worm.mat'), 'intensity_green_split_worm');
 
 %% close
 close all;

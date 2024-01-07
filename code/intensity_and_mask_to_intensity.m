@@ -4,7 +4,7 @@
 % 2023-12-13, Yixuan Li
 %
 
-function intensity_and_mask_to_intensity(folder_path,analyze_area,frame_per_volume)
+function intensity_and_mask_to_intensity(folder_path,analyze_area,frame_per_volume,analyze_worm)
 
 % save
 save_para_value_to_txt(folder_path, frame_per_volume)
@@ -19,6 +19,11 @@ switch analyze_area
         intensity = load_data_from_mat(fullfile(folder_path,'intensity_soma.mat'));
     case "axon_dendrite"
         intensity = load_data_from_mat(fullfile(folder_path,'intensity_axon_dendrite.mat'));
+end
+
+if analyze_worm > 0
+    intensity_split_worm = load_data_from_mat(fullfile(folder_path,'intensity_split_worm.mat'));
+    intensity = intensity_split_worm{analyze_worm};
 end
 
 % set outliers as nan

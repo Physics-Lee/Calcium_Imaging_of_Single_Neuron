@@ -46,7 +46,7 @@ neurite_template = "opposite";
 disk_size = 3; % super-parameter
 
 % For test
-is_test = false;
+is_test = true;
 start_frame = 1;
 end_frame = 300;
 
