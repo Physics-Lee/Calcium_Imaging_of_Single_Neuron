@@ -183,19 +183,13 @@ for i = start_frame:end_frame
             x_min = region_prop(k,3);
             x_max = region_prop(k,4);
 
-            % get musk for red
+            % get mask for red
             mask_red = false(size(binary_frame_red));
             mask_red(x_min:x_max,y_min:y_max) = true;
 
-            % get region for green
-            y_max = region_prop(k,1);
-            y_min = region_prop(k,2);
-            x_min = region_prop(k,3);
-            x_max = region_prop(k,4);
-
-            % get musk for green
+            % get mask for green
             mask_green = false(size(binary_frame_green));
-            mask_green(x_min:x_max,y_min:y_max) = true; 
+            mask_green(x_min:x_max,1024 - y_max:1024 - y_min) = true; 
 
             % get Intensity
             binary_frame_red_for_current_worm = binary_frame_red & mask_red;
