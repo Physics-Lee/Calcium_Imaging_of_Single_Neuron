@@ -3,21 +3,21 @@
 % 2023-12-13, Yixuan Li
 %
 
-function draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second)
+function draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second)
 
 % Get a list of all .tif files in the folder
 switch pooling_method
     case "mean"
         list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_mean.mat');
-        save_folder_path = fullfile(folder_path,analyze_area,"mean pooling");
+        save_folder_path = fullfile(folder_path,analyze_area,strcat("animal_",num2str(analyze_worm)),"mean pooling");
         create_folder(save_folder_path);
     case "max"
         list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_max.mat');
-        save_folder_path = fullfile(folder_path,analyze_area,"max pooling");
+        save_folder_path = fullfile(folder_path,analyze_area,strcat("animal_",num2str(analyze_worm)),"max pooling");
         create_folder(save_folder_path);
     case "median"
         list = get_all_files_of_a_certain_name_pattern_in_a_rootpath(folder_path, 'intensity_volume_median.mat');
-        save_folder_path = fullfile(folder_path,analyze_area,"median pooling");
+        save_folder_path = fullfile(folder_path,analyze_area,strcat("animal_",num2str(analyze_worm)),"median pooling");
         create_folder(save_folder_path);
 end
 
@@ -29,6 +29,9 @@ end
 %% load data
 I_1 = load_data_from_mat(list{1});
 I_2 = load_data_from_mat(list{2});
+
+%% number of volumes
+n_volume = length(I_1);
 
 %% get channel info
 if contains(list{1},"Red")
@@ -70,9 +73,11 @@ figure;
 
 subplot(4,1,1)
 plot_intensity(I_1,list{1});
+volume_to_second_for_xlabel(n_volume,volume_per_second);
 
 subplot(4,1,2)
 plot_intensity(I_2,list{2});
+volume_to_second_for_xlabel(n_volume,volume_per_second);
 
 subplot(4,1,3)
 if I_1_info == "Red"
@@ -80,13 +85,15 @@ if I_1_info == "Red"
 else
     I_ratio = plot_ratio(I_2,I_1);
 end
+volume_to_second_for_xlabel(n_volume,volume_per_second);
 
 subplot(4,1,4)
 I_ratio_normalized = normalization_dividing_by_the_mean(I_ratio);
 plot(1:length(I_ratio_normalized),I_ratio_normalized,'k');
-xlabel("volume","FontSize",20);
+
+volume_to_second_for_xlabel(n_volume,volume_per_second);
+xlabel("t (s)","FontSize",20);
 ylabel("$\frac{ratio-<ratio>}{<ratio>}$","Interpreter","latex","FontSize",20);
-% ylim([-1 +1]);
 ylim([-0.5 +0.5]);
 
 set_full_screen;

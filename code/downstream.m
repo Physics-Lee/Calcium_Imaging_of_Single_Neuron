@@ -45,13 +45,13 @@ if root_folder_path ~= 0
 
             %% I_volume to figures
             % pooling_method = "mean";
-            % draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
+            % draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second);
 
             pooling_method = "max";
-            draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
+            draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second);
 
             % pooling_method = "median";
-            % draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
+            % draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second);
         end
     end
 end
