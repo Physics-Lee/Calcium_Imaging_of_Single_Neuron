@@ -8,7 +8,7 @@ I_diff = nan(length(I_green),1);
 I_diff(~is_nan) = I_green(~is_nan) - I_red(~is_nan);
 
 % Tukey
-IQR_index = 3;
+IQR_index = 100;
 [~, ~, mask_up, mask_down, ~, ~, ~, ~] = Tukey_test(I_diff, IQR_index);
 I_diff(mask_up | mask_down) = nan;
 

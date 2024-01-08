@@ -20,7 +20,7 @@ frame_per_volume = 25;
 volume_per_second = 1;
 
 %% analyze which worm?
-analyze_worm = 3; % 0 for skipping
+analyze_worm = 1; % 0 for skipping
 
 %% main
 if root_folder_path ~= 0

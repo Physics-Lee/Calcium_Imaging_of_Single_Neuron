@@ -21,11 +21,11 @@ Answer: Use binarization.
 
 note:
 
-* How to detect outliers?
+* How to detect outliers? (Don't need fine-tune)
 
-  * Tukey test of the number of bright pixels of certain binary frame. IQR_index = 1
-  * Tukey test of the intensity of bright pixels of certain binary frame. IQR_index = 1
-  * Tukey test of the `intensity_volume` of certain volume. IQR_index = 1
+  * Tukey test of the number of bright pixels of certain binary frame. IQR_index = 1.5
+  * Tukey test of the intensity of bright pixels of certain binary frame. IQR_index = 1.5
+  * Tukey test of the `intensity_volume` of certain volume. IQR_index = 3
   * Tukey test of the diff or ratio. IQR_index = 3
 
 * How to deal with outliers?
@@ -75,3 +75,11 @@ For example, in our taxis project in 2023/11, the green channel is brighter than
 ## halo
 
 Use opening to remove the halo of the soma after digging out it from the original BW.
+
+
+
+# How to Split Worms When Having Multiple Animals?
+
+First, we must have a template for the whole neuron, otherwise, the affect of noise will be much more severe.
+
+I use this criteria: in certain frame, for certain worm, choose the channel which has more bright pixels!

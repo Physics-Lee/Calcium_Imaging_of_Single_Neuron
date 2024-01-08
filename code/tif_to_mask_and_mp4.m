@@ -198,15 +198,9 @@ for i = start_frame:end_frame
             mask_green = flip(mask_red,2);
 
             % get Intensity
-            Brighter_Channel = select_channel(binary_frame_red,binary_frame_green,region_prop_red(k,:));
-            switch Brighter_Channel
-                case "Red"
-                    binary_frame_red_for_current_worm = binary_frame_red & mask_red;
-                    binary_frame_green_for_current_worm = flip(binary_frame_red,2) & mask_green;
-                case "Green"
-                    binary_frame_red_for_current_worm = flip(binary_frame_green,2) & mask_red;
-                    binary_frame_green_for_current_worm = binary_frame_green & mask_green;
-            end
+
+            binary_frame_red_for_current_worm = binary_frame_red & mask_red;
+            binary_frame_green_for_current_worm = binary_frame_green & mask_green;
             intensity_red_for_current_worm = sum(gray_frame_red(binary_frame_red_for_current_worm));
             intensity_green_for_current_worm = sum(gray_frame_green(binary_frame_green_for_current_worm));
 
