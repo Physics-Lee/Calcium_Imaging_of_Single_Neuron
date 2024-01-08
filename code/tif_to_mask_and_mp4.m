@@ -8,7 +8,7 @@ function tif_to_mask_and_mp4(folder_path_red,folder_path_green, ...
     all_template,soma_template,neurite_template,disk_size,...
     is_test,start_frame,end_frame,...
     use_open_for_all, ...
-    region_prop, ...
+    region_prop_red, ...
     frame_per_second)
 
 %% init
@@ -49,18 +49,20 @@ intensity_axon_dendrite_green = nan(n_frame,1);
 video_format = 'MPEG-4';
 
 output_video_red = open_a_video(folder_path_red,video_name_str_red,video_format,frame_per_second);
+output_video_red_new = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_new.mp4'),video_format,frame_per_second);
 output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_soma.mp4'),video_format,frame_per_second);
 output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_neurite.mp4'),video_format,frame_per_second);
 
 output_video_green = open_a_video(folder_path_green,video_name_str_green,video_format,frame_per_second);
+output_video_green_new = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_new.mp4'),video_format,frame_per_second);
 output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_soma.mp4'),video_format,frame_per_second);
 output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_neurite.mp4'),video_format,frame_per_second);
 
 %% multi worm
 
-if ~isempty(region_prop)
+if ~isempty(region_prop_red)
     % init red
-    n_worm = size(region_prop,1);
+    n_worm = size(region_prop_red,1);
     intensity_red_split_worm = cell(n_worm,1);
     for i = 1:n_worm
         intensity_red_split_worm{i} = nan(n_frame, 1);
@@ -157,7 +159,12 @@ for i = start_frame:end_frame
             binary_frame_green = flip(binary_frame_red,2);
         case "green"
             binary_frame_red = flip(binary_frame_green,2);
+        case "nan"
     end
+
+    %% write to the video after applying all_template
+    write_to_a_video(output_video_red_new,binary_frame_red);
+    write_to_a_video(output_video_green_new,binary_frame_green);
 
     %% save to numerical arrays
 
@@ -174,33 +181,44 @@ for i = start_frame:end_frame
     intensity_axon_dendrite_green(i) = sum(gray_frame_green(axon_dendrite_green));
 
     %% multi worms
-    if ~isempty(region_prop)
+    if ~isempty(region_prop_red)
         for k = 1:n_worm
 
             % get region for red(figure in MATLAB is down for x and right for y, while in Image-J is down for y and right for x)
-            y_min = region_prop(k,1);
-            y_max = region_prop(k,2);
-            x_min = region_prop(k,3);
-            x_max = region_prop(k,4);
+            y_min = region_prop_red(k,1);
+            y_max = region_prop_red(k,2);
+            x_min = region_prop_red(k,3);
+            x_max = region_prop_red(k,4);
 
             % get mask for red
             mask_red = false(size(binary_frame_red));
             mask_red(x_min:x_max,y_min:y_max) = true;
 
             % get mask for green
-            mask_green = false(size(binary_frame_green));
-            mask_green(x_min:x_max,1024 - y_max:1024 - y_min) = true; 
+            mask_green = flip(mask_red,2);
 
             % get Intensity
-            binary_frame_red_for_current_worm = binary_frame_red & mask_red;
+            Brighter_Channel = select_channel(binary_frame_red,binary_frame_green,region_prop_red(k,:));
+            switch Brighter_Channel
+                case "Red"
+                    binary_frame_red_for_current_worm = binary_frame_red & mask_red;
+                    binary_frame_green_for_current_worm = flip(binary_frame_red,2) & mask_green;
+                case "Green"
+                    binary_frame_red_for_current_worm = flip(binary_frame_green,2) & mask_red;
+                    binary_frame_green_for_current_worm = binary_frame_green & mask_green;
+            end
             intensity_red_for_current_worm = sum(gray_frame_red(binary_frame_red_for_current_worm));
-
-            binary_frame_green_for_current_worm = binary_frame_green & mask_green;
             intensity_green_for_current_worm = sum(gray_frame_green(binary_frame_green_for_current_worm));
 
             % save to a cell array
             intensity_red_split_worm{k}(i) = intensity_red_for_current_worm;
             intensity_green_split_worm{k}(i) = intensity_green_for_current_worm;
+
+            if sum(sum(binary_frame_red)) >= sum(sum(binary_frame_green))
+                binary_frame_green = flip(binary_frame_red,2);
+            else
+                binary_frame_red = flip(binary_frame_green,2);
+            end
         end
     end
 
@@ -208,15 +226,17 @@ end
 
 %% Close
 close(output_video_red);
+close(output_video_red_new);
 close(output_video_soma_red);
 close(output_video_neurite_red);
 
 close(output_video_green);
+close(output_video_green_new);
 close(output_video_soma_green);
 close(output_video_neurite_green);
 
 %% Tukey for n
-IQR_index = 1.5;
+IQR_index = 100;
 figure;
 histogram(n_bright_pixel(~isnan(n_bright_pixel)));
 xlabel("number of bright pixels of certain binary frame");
@@ -229,7 +249,7 @@ saveas(gcf,fullfile(folder_path_red, 'Tukey_test_of_n_of_bright_pixels'),'png');
 is_outlier_1 = mask_up | mask_down;
 
 %% Tukey for I
-IQR_index = 1.5;
+IQR_index = 100;
 figure;
 histogram(intensity_red(~isnan(intensity_red)));
 xlabel("intensity of bright pixels of certain binary frame");

@@ -20,7 +20,7 @@ frame_per_volume = 25;
 volume_per_second = 1;
 
 %% analyze which worm?
-analyze_worm = 1; % 0 for skipping
+analyze_worm = 3; % 0 for skipping
 
 %% main
 if root_folder_path ~= 0
@@ -44,14 +44,14 @@ if root_folder_path ~= 0
             intensity_and_mask_to_intensity(folder_path_Green,analyze_area,frame_per_volume,analyze_worm);
 
             %% I_volume to figures
-            pooling_method = "mean";
-            draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
+            % pooling_method = "mean";
+            % draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
 
             pooling_method = "max";
             draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
 
-            pooling_method = "median";
-            draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
+            % pooling_method = "median";
+            % draw_red_green_together(folder_path,pooling_method,analyze_area,volume_per_second);
         end
     end
 end
