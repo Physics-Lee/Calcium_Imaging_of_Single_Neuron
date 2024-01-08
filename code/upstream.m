@@ -48,8 +48,8 @@ sense_red = 0.2; % super-parameter
 sense_green = 0.2; % super-parameter
 
 % For opening
-all_template = "nan"; % "nan" for multi-worm
-soma_template = "red"; % In most cases, red is easier to be splitted than green
+all_template = "nan"; % "nan" is recommended for multi-worm
+soma_template = "red"; % In most cases, red is more dimmer, so is easier to be splitted than green
 neurite_template = "opposite"; % "opposite" is recommended
 disk_size = 3; % super-parameter
 
@@ -62,8 +62,8 @@ end_frame = 300;
 use_open_for_all = true; % true is recommended
 
 % For multi worms
-region_prop_red = [600,800,100,300;480,600,540,680;330,500,680,820]; % You can get these by Image-J
-% region_prop_red = [1,430,1,400;510,900,240,600;180,470,660,960];
+% region_prop_red = [600,800,100,300;480,600,540,680;330,500,680,820]; % You can get these by Image-J
+region_prop_red = [1,430,1,400;510,900,240,600;180,470,660,960];
 % region_prop_red = [20,220,300,500;700,980,250,520];
 
 % fps

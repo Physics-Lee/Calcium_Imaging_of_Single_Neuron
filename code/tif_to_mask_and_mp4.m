@@ -230,7 +230,7 @@ close(output_video_soma_green);
 close(output_video_neurite_green);
 
 %% Tukey for n
-IQR_index = 100;
+IQR_index = 5;
 figure;
 histogram(n_bright_pixel(~isnan(n_bright_pixel)));
 xlabel("number of bright pixels of certain binary frame");
@@ -243,7 +243,7 @@ saveas(gcf,fullfile(folder_path_red, 'Tukey_test_of_n_of_bright_pixels'),'png');
 is_outlier_1 = mask_up | mask_down;
 
 %% Tukey for I
-IQR_index = 100;
+IQR_index = 5;
 figure;
 histogram(intensity_red(~isnan(intensity_red)));
 xlabel("intensity of bright pixels of certain binary frame");
