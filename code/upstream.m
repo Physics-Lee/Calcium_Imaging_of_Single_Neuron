@@ -20,6 +20,7 @@
 % If your .tif files contain more than 1 worm (which is often the case when
 % we test immobile animals), you can simply write the rectangle containg
 % the worm in region_prop.
+% Set region_prop_red = [] if only 1 worm.
 %
 % Frame per second:
 % The fps of you data.
@@ -64,7 +65,8 @@ use_open_for_all = true; % true is recommended
 % For multi worms
 % region_prop_red = [600,800,100,300;480,600,540,680;330,500,680,820]; % You can get these by Image-J
 % region_prop_red = [1,430,1,400;510,900,240,600;180,470,660,960];
-region_prop_red = [20,220,300,500;700,980,250,520];
+% region_prop_red = [20,220,300,500;700,980,250,520];
+region_prop_red = [];
 
 % fps
 frame_per_second = 25; % Hz
