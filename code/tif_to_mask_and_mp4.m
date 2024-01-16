@@ -7,7 +7,7 @@ function tif_to_mask_and_mp4(folder_path_red,folder_path_green, ...
     binarization_method,sense_red,sense_green,...
     all_template,soma_template,neurite_template,disk_size,...
     is_test,start_frame,end_frame,...
-    use_open_for_all, ...
+    use_open_for_all,disk_size_for_all, ...
     region_prop_red, ...
     frame_per_second)
 
@@ -100,9 +100,8 @@ for i = start_frame:end_frame
     %% open for all
     switch use_open_for_all
         case true
-            disk_size_all = 1;
-            binary_frame_red = opening_for_neurite(binary_frame_red,disk_size_all);
-            binary_frame_green = opening_for_neurite(binary_frame_green,disk_size_all);
+            binary_frame_red = opening_for_neurite(binary_frame_red,disk_size_for_all);
+            binary_frame_green = opening_for_neurite(binary_frame_green,disk_size_for_all);
         case false
     end
 
@@ -263,13 +262,13 @@ save(fullfile(folder_path_red, 'is_outlier.mat'), 'is_outlier');
 save(fullfile(folder_path_red, 'intensity.mat'), 'intensity_red');
 save(fullfile(folder_path_red, 'intensity_soma.mat'), 'intensity_soma_red');
 save(fullfile(folder_path_red, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite_red');
-save(fullfile(folder_path_red, 'intensity_split_worm.mat'), 'intensity_red_split_worm');
+% save(fullfile(folder_path_red, 'intensity_split_worm.mat'), 'intensity_red_split_worm');
 
 save(fullfile(folder_path_green, 'is_outlier.mat'), 'is_outlier');
 save(fullfile(folder_path_green, 'intensity.mat'), 'intensity_green');
 save(fullfile(folder_path_green, 'intensity_soma.mat'), 'intensity_soma_green');
 save(fullfile(folder_path_green, 'intensity_axon_dendrite.mat'), 'intensity_axon_dendrite_green');
-save(fullfile(folder_path_green, 'intensity_split_worm.mat'), 'intensity_green_split_worm');
+% save(fullfile(folder_path_green, 'intensity_split_worm.mat'), 'intensity_green_split_worm');
 
 %% close
 close all;

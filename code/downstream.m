@@ -16,11 +16,11 @@ root_folder_path = uigetdir;
 analyze_area = "all";
 
 %% change this parameter to the frame per volume of your experiment
-frame_per_volume = 25;
-volume_per_second = 1;
+frame_per_volume = 5;
+volume_per_second = 5;
 
 %% analyze which worm?
-analyze_worm = 2; % 0 for skipping
+analyze_worm = 0; % 0 for skipping
 
 %% main
 if root_folder_path ~= 0
