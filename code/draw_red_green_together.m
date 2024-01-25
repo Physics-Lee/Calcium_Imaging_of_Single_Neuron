@@ -47,26 +47,26 @@ figure;
 histogram(I_1);
 xlabel("I_1");
 ylabel("count");
-% IQR_index = 3;
-% [~, ~, mask_up_1, mask_down_1, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_1, IQR_index);
-% Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
+IQR_index = 3;
+[~, ~, mask_up_1, mask_down_1, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_1, IQR_index);
+Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
 saveas(gcf,fullfile(save_folder_path, 'Tukey_test_for_I_1'),'png');
 
 figure;
 histogram(I_2);
 xlabel("I_2");
 ylabel("count");
-% IQR_index = 3;
-% [~, ~, mask_up_2, mask_down_2, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_2, IQR_index);
-% Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
+IQR_index = 3;
+[~, ~, mask_up_2, mask_down_2, up_limit, down_limit, upper_bound, lower_bound] = Tukey_test(I_2, IQR_index);
+Tukey_test_draw_lines(up_limit, down_limit, upper_bound, lower_bound);
 saveas(gcf,fullfile(save_folder_path, 'Tukey_test_for_I_2'),'png');
 
-% mask_up = mask_up_1 | mask_up_2;
-% mask_down = mask_down_1 | mask_down_2;
-% 
-% is_outlier = mask_up | mask_down;
-% I_1(is_outlier) = nan;
-% I_2(is_outlier) = nan;
+mask_up = mask_up_1 | mask_up_2;
+mask_down = mask_down_1 | mask_down_2;
+
+is_outlier = mask_up | mask_down;
+I_1(is_outlier) = nan;
+I_2(is_outlier) = nan;
 
 %% plot I
 figure;

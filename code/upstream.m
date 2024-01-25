@@ -49,7 +49,7 @@ sense_red = 0.2; % super-parameter
 sense_green = 0.2; % super-parameter
 
 % For opening
-all_template = "nan"; % "nan" is recommended for multi-worm
+all_template = "green"; % "nan" is recommended for multi-worm
 soma_template = "red"; % In most cases, red is more dimmer, so is easier to be splitted than green
 neurite_template = "opposite"; % "opposite" is recommended
 disk_size = 3; % super-parameter
