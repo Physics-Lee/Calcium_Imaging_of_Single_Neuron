@@ -1,8 +1,32 @@
+[![Youtube](https://img.shields.io/badge/YouTube-Demo-red)](https://www.youtube.com/watch?v=4X_8FBpwh8g)
+
+[![GitHub](https://img.shields.io/github/license/Wenlab/Machine_Label_of_Colbert)](https://github.com/Wenlab/Calcium_Imaging_of_a_Single_Neuron/blob/master/LICENSE)
+
+# Update Log
+
+* 2024-04-15: version 1.0.0, first release.
+
+
+
 # Demo
 
-Soma:
+The following videos are the results from an experiment of 400 seconds (P.S.: `Or_w3_2023-11-27_20-45-30` in our server). Check them on YouTube.
 
-Neurite: 
+* Red Channel
+
+  * [Soma + Axon + Dendrite](https://www.youtube.com/watch?v=fDxOE4OOPgU)
+
+  * [Soma](https://www.youtube.com/watch?v=8xflTEeHHjE)
+
+  * [Axon + Dendrite](https://www.youtube.com/watch?v=REDlb_fn01U)
+
+* Green Channel
+  * [Soma + Axon + Dendrite](https://www.youtube.com/watch?v=4X_8FBpwh8g)
+
+  * [Soma](https://www.youtube.com/watch?v=XjRCw8ASres)
+
+  * [Axon + Dendrite](https://www.youtube.com/watch?v=386Eiqav1gU)
+
 
 
 
@@ -78,7 +102,7 @@ note:
   * make them to be nan.
 
 
-## How to Split the Soma and the Neurite?
+## How to Split the Soma and the Neurite (Axon + Dendrite)?
 
 Answer: Use opening.
 
