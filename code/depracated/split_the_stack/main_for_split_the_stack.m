@@ -1,3 +1,8 @@
+% split a n*1 stack to n .tif files.
+%
+% 2024-04-15, Yixuan Li
+%
+
 clc;clear;close all;
 
 full_path =  "F:\1_learning\research\taxis of C.elegans\Calcium Imaging\data\SAA_2023\20240109\w4\stk1\w4_red_stk1_361-1170.tif";

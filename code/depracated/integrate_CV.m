@@ -1,3 +1,8 @@
+% integrate the Coefficient of Variation of different exp
+%
+% 2024-04-15, Yixuan Li
+%
+
 clc;clear;close all;
 root_path = uigetdir;
 file_name = 'CV_Green';

@@ -11,7 +11,7 @@ down-stream
 
 * `intensity.mat`, `is_outlier_union.mat` ->`intensity.mat`,  `intensity_volume.mat`
 
-* 2 `intensity_volume.mat` -> figures
+* 2 `intensity_volume.mat` -> figures of red and green channel
 
 
 

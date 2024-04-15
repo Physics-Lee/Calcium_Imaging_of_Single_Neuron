@@ -1,5 +1,10 @@
 function intensity_volume = median_pooling(intensity,frame_per_volume)
 
+% median-pooling for a volume. 
+%
+% 2024-04-15, Yixuan Li
+%
+
 % Reshape
 n = numel(intensity);
 num_groups = floor(n / frame_per_volume);

@@ -1,5 +1,10 @@
 function split_the_stack(full_path,save_folder_path,start_frame,end_frame)
 
+% split a n*1 stack to n .tif files.
+%
+% 2024-04-15, Yixuan Li
+%
+
 n_frame = end_frame - start_frame + 1;
 image_stack = zeros(1024, 1024, end_frame - start_frame + 1, 'uint16'); % Adjust 'uint8' if your images have a different data type
 
