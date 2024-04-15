@@ -1,4 +1,3 @@
-%% test
 % intensity of frames and mask to intensity of volumes, using
 % mean, max or median pooling
 %

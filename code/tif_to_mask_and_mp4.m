@@ -49,12 +49,12 @@ intensity_axon_dendrite_green = nan(n_frame,1);
 video_format = 'MPEG-4';
 
 output_video_red = open_a_video(folder_path_red,video_name_str_red,video_format,frame_per_second);
-output_video_red_new = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_new.mp4'),video_format,frame_per_second);
+output_video_red_after_applying_all_template = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_after_applying_all_template.mp4'),video_format,frame_per_second);
 output_video_soma_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_soma.mp4'),video_format,frame_per_second);
 output_video_neurite_red = open_a_video(folder_path_red,strrep(video_name_str_red,'_red.mp4','_red_neurite.mp4'),video_format,frame_per_second);
 
 output_video_green = open_a_video(folder_path_green,video_name_str_green,video_format,frame_per_second);
-output_video_green_new = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_new.mp4'),video_format,frame_per_second);
+output_video_green_after_applying_all_template = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_after_applying_all_template.mp4'),video_format,frame_per_second);
 output_video_soma_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_soma.mp4'),video_format,frame_per_second);
 output_video_neurite_green = open_a_video(folder_path_green,strrep(video_name_str_green,'_green.mp4','_green_neurite.mp4'),video_format,frame_per_second);
 
@@ -162,8 +162,8 @@ for i = start_frame:end_frame
     end
 
     %% write to the video after applying all_template
-    write_to_a_video(output_video_red_new,binary_frame_red);
-    write_to_a_video(output_video_green_new,binary_frame_green);
+    write_to_a_video(output_video_red_after_applying_all_template,binary_frame_red);
+    write_to_a_video(output_video_green_after_applying_all_template,binary_frame_green);
 
     %% save to numerical arrays
 
@@ -219,12 +219,12 @@ end
 
 %% Close
 close(output_video_red);
-close(output_video_red_new);
+close(output_video_red_after_applying_all_template);
 close(output_video_soma_red);
 close(output_video_neurite_red);
 
 close(output_video_green);
-close(output_video_green_new);
+close(output_video_green_after_applying_all_template);
 close(output_video_soma_green);
 close(output_video_neurite_green);
 

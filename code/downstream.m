@@ -1,6 +1,15 @@
 % down-stream: `is_outlier.mat`, `.mp4`, `intensity.mat` -> figures of red
 % and green channel
 %
+% analyze_area: "all", "soma", "axon_dendrite".
+%
+% pooling-method: "max", "median", "mean".
+% "max" is more reliable for scanning in z-axis, because 
+% in a volume max-pooling will direct to the brightest frame.
+%
+% analyze_worm: "0", "1", "2", "3",...
+% 0 for skipping
+%
 % 2023-12-04, Yixuan Li
 %
 
@@ -14,14 +23,17 @@ my_add_path();
 root_folder_path = uigetdir;
 
 %% choose the area that you want to analyze
-analyze_area = "all";
+analyze_area = "axon_dendrite";
+
+%% choose the pooling method
+pooling_method = "max";
+
+%% choose the worm to be analyzed
+analyze_worm = 0;
 
 %% change this parameter to the frame per volume of your experiment
-frame_per_volume = 5;
-volume_per_second = 5;
-
-%% analyze which worm?
-analyze_worm = 0; % 0 for skipping
+frame_per_volume = 25;
+volume_per_second = 1;
 
 %% main
 if root_folder_path ~= 0
@@ -29,6 +41,8 @@ if root_folder_path ~= 0
     [indx,tf] = listdlg('ListString',root_list,'ListSize',[800,600],'Name','Choose files');
     if tf==1
         for i = indx
+
+            %% get folder path
             folder_path = root_list{i};
 
             %% is_outlier to is_outlier_union
@@ -44,13 +58,6 @@ if root_folder_path ~= 0
             intensity_and_mask_to_intensity(folder_path_Green,analyze_area,frame_per_volume,analyze_worm);
 
             %% I_volume to figures
-            pooling_method = "mean";
-            draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second);
-
-            pooling_method = "max";
-            draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second);
-
-            pooling_method = "median";
             draw_red_green_together(folder_path,pooling_method,analyze_area,analyze_worm,volume_per_second);
         end
     end
