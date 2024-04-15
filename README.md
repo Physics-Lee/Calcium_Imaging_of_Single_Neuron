@@ -1,11 +1,20 @@
-# Workflow
+# Demo
 
-up-stream
+Soma:
+
+Neurite: 
+
+
+
+# User Guide
+
+## Workflow
+
+`up-stream.m`
 
 * `.tif` -> `is_outlier.mat`, `.mp4`, `intensity.mat`
 
-
-down-stream
+`down-stream.m`
 
 * 2 `is_outlier.mat` -> `is_outlier_union.mat`
 
@@ -13,9 +22,46 @@ down-stream
 
 * 2 `intensity_volume.mat` -> figures of red and green channel
 
+  
+
+## The Structure of the Data Folder
+
+```
+Data
+│
+├── w1
+│   ├── 0_Camera-Red_VSC-10629
+│   │   └── *.tif
+│   └── 1_Camera-Green_VSC-09321
+│       └── *.tif
+│
+├── w2
+│   ├── 0_Camera-Red_VSC-10629
+│   │   └── *.tif
+│   └── 1_Camera-Green_VSC-09321
+│       └── *.tif
+│
+├── w3
+│   ├── 0_Camera-Red_VSC-10629
+│   │   └── *.tif
+│   └── 1_Camera-Green_VSC-09321
+│       └── *.tif
+...
+```
 
 
-# How to Get the Intensity?
+
+## The Selection
+
+When using `up-stream.m`, select a folder of the `w1` level.
+
+When using `down-stream.m`, select a folder of the `Data` level.
+
+
+
+# Principle
+
+## How to Get the Intensity?
 
 Answer: Use binarization.
 
@@ -32,13 +78,11 @@ note:
   * make them to be nan.
 
 
-
-
-# How to Split the Soma and the Neurite?
+## How to Split the Soma and the Neurite?
 
 Answer: Use opening.
 
-## tune
+### tune
 
 super-parameter
 
@@ -54,7 +98,7 @@ note:
 
 
 
-## template
+### template
 
 Requirements
 
@@ -72,13 +116,13 @@ For example, in our taxis project in 2023/11, the green channel is brighter than
 
 
 
-## halo
+### halo
 
 Use opening to remove the halo of the soma after digging out it from the original BW.
 
 
 
-# How to Split Worms When Having Multiple Animals?
+## How to Split Worms When Having Multiple Animals?
 
 First, we must have a template for the whole neuron, otherwise, the affect of noise will be much more severe.
 
