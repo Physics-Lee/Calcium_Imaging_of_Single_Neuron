@@ -1,5 +1,5 @@
 % Define the video file
-videoFile = 'F:\Desktop\新建文件夹\Demo.mp4';
+videoFile = '';
 
 % Create a VideoReader object to read video data
 vidObj = VideoReader(videoFile);
