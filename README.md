@@ -10,22 +10,16 @@
 
 # Demo
 
-The following videos are the results from an experiment of 400 seconds (P.S.: `Or_w3_2023-11-27_20-45-30` in our server). Check them on YouTube.
+The following videos are the results from a single experiment. (P.S.: `w3_ND16_2024-04-10_23-28-30` in our server). 
 
-* Red Channel
+![Demo GIF](/README/demo.gif)
 
-  * [Soma + Axon + Dendrite](https://www.youtube.com/watch?v=fDxOE4OOPgU)
+Check full videos of this experiment on YouTube.
 
-  * [Soma](https://www.youtube.com/watch?v=8xflTEeHHjE)
-
-  * [Axon + Dendrite](https://www.youtube.com/watch?v=REDlb_fn01U)
-
-* Green Channel
-  * [Soma + Axon + Dendrite](https://www.youtube.com/watch?v=4X_8FBpwh8g)
-
-  * [Soma](https://www.youtube.com/watch?v=XjRCw8ASres)
-
-  * [Axon + Dendrite](https://www.youtube.com/watch?v=386Eiqav1gU)
+* [Original](https://www.youtube.com/watch?v=Mb1SpIGwP5I)
+* [Soma + Axon + Dendrite](https://www.youtube.com/watch?v=3BWrGnO12g4)
+* [Soma](https://www.youtube.com/watch?v=-1cdvQVFOaY)
+* [Axon + Dendrite](https://www.youtube.com/watch?v=V4snguF-bec)
 
 
 
