@@ -16,7 +16,7 @@ The following videos are the results from a single experiment. (P.S.: `w3_ND16_2
 
 Check full videos of this experiment on YouTube.
 
-* Original
+* [Original](https://www.youtube.com/watch?v=Mb1SpIGwP5I)
 * [Soma + Axon + Dendrite](https://www.youtube.com/watch?v=3BWrGnO12g4)
 * [Soma](https://www.youtube.com/watch?v=-1cdvQVFOaY)
 * [Axon + Dendrite](https://www.youtube.com/watch?v=V4snguF-bec)
